@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.InfoFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/average"
+        android:text="@string/info_card_description"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editText_product_name"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="50dp"
+
+        android:ems="10"
+        android:hint="Название товара"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editText_product_description"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="100dp"
+
+        android:ems="10"
+        android:hint="Описание товара"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editText_product_article"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="150dp"
+
+        android:ems="10"
+        android:hint="Артикул товара"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editText_product_barcode"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="200dp"
+
+        android:ems="10"
+        android:hint="Штрихкод товара"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editText_product_count"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="250dp"
+
+        android:ems="10"
+        android:hint="Количество товара"
+        android:inputType="textPersonName" />
+
+
+</FrameLayout>

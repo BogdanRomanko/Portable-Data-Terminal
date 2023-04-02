@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Portable data terminal</string>
+
+    <string name="info_card_description">Информация о товаре:</string>
+    <string name="acceptance_description">Создание формы приёма товара</string>
+    <string name="main_description">Мобильный терминал сбора данных</string>
+    <string name="sync_description">Введите данные для синхронизации с сервером</string>
+    <string name="info_description">Отсканируйте штрихкод для получения информации о товаре</string>
+    <string name="tmp_description">Нажмите Добавить чтобы начать заполнение формы</string>
+    <string name="shipment_description">Создание формы отгрузки товара</string>
+
+    <string name="enter_ip">Введите IP-адрес</string>
+    <string name="user_name">Введите имя пользователя</string>
+    <string name="user_password">Введите пароль</string>
+
+    <string name="sync">Синхронизация с сервером</string>
+    <string name="shipment">Создать форму отгрузки</string>
+    <string name="reception">Создать форму приёмки</string>
+    <string name="info">Посмотреть информацию о товаре</string>
+
+    <string name="scan">Сканировать</string>
+    <string name="apply">Применить</string>
+    <string name="send_button">Отправить</string>
+    <string name="add_button">Добавить</string>
+    <string name="data_update">Обновление данных</string>
+</resources>

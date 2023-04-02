@@ -1,0 +1,7 @@
+com.example.portableDataTerminal.test.app-core-1.5.0-0 C:\Users\broma\.gradle\caches\transforms-3\9625a4369847c3660983c501a7b3626b\transformed\core-1.5.0\res
+com.example.portableDataTerminal.test.app-annotation-experimental-1.3.0-1 C:\Users\broma\.gradle\caches\transforms-3\9fae957ef0e1266a83e5188cb210102e\transformed\annotation-experimental-1.3.0\res
+com.example.portableDataTerminal.test.app-androidTest-2 G:\Portabledataterminal\app\build\generated\res\resValues\androidTest\debug
+com.example.portableDataTerminal.test.app-androidTest-3 G:\Portabledataterminal\app\build\generated\res\rs\androidTest\debug
+com.example.portableDataTerminal.test.app-mergeDebugAndroidTestResources-4 G:\Portabledataterminal\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.portableDataTerminal.test.app-mergeDebugAndroidTestResources-5 G:\Portabledataterminal\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.portableDataTerminal.test.app-merged_res-6 G:\Portabledataterminal\app\build\intermediates\merged_res\debugAndroidTest
