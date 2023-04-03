@@ -1,5 +1,8 @@
 package com.example.portableDataTerminal.Models
 
+/*
+ * Модель данных для базы данных продуктов
+ */
 class ProductDataModel(
     var id: String?,
     var product_id: String,

@@ -9,7 +9,14 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.portableDataTerminal.Models.ProductDataModel
 
+/*
+ * Класс, содержащий в себе методы для работы с базой данной продуктов
+ */
 class DatabaseProductHandler(context: Context):  SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    /*
+     * Перечисление констрант
+     */
     companion object {
         private val DATABASE_VERSION = 3
         private val DATABASE_NAME = "ProductDatabase"
@@ -23,17 +30,27 @@ class DatabaseProductHandler(context: Context):  SQLiteOpenHelper(context, DATAB
         private val KEY_COUNT = "count"
     }
 
+    /*
+     * Обработчик события создания базы данных, создающий
+     * новую таблицу с продуктами
+     */
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL("CREATE TABLE $TABLE_PRODUCTS ($KEY_ID INTEGER PRIMARY KEY," +
                 " $KEY_PRODUCT_ID TEXT, $KEY_NAME TEXT, $KEY_DESCRIPTION TEXT," +
                 " $KEY_ARTICLE TEXT, $KEY_BARCODE TEXT, $KEY_COUNT INTEGER);")
     }
 
+    /*
+     * Обработчик события обновления базы данных
+     */
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL("DROP TABLE IF EXISTS $TABLE_PRODUCTS;")
         onCreate(db)
     }
 
+    /*
+     * Метод, добавляющий запись в таблицу с переданными значениями
+     */
     fun addProduct(product: ProductDataModel):Long {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -53,6 +70,9 @@ class DatabaseProductHandler(context: Context):  SQLiteOpenHelper(context, DATAB
         return success
     }
 
+    /*
+     * Метод, возвращающий список продуктов в базе данных
+     */
     @SuppressLint("Range")
     fun viewProducts(): List<ProductDataModel> {
         val product_list: ArrayList<ProductDataModel> = ArrayList()

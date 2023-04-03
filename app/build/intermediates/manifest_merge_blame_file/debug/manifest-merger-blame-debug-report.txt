@@ -84,89 +84,88 @@
 47-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:13:9-41
 48        android:supportsRtl="true"
 48-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:14:9-35
-49        android:testOnly="true"
-50        android:theme="@style/Theme.PortableDataTerminal"
-50-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:15:9-58
-51        android:usesCleartextTraffic="true" >
-51-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:16:9-44
-52        <activity
-52-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:18:9-20:40
-53            android:name="com.example.portableDataTerminal.Activitys.ShipmentActivity"
-53-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:19:13-55
-54            android:exported="false" />
-54-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:20:13-37
-55        <activity
-55-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:21:9-23:40
-56            android:name="com.example.portableDataTerminal.Activitys.AcceptanceActivity"
-56-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:22:13-57
-57            android:exported="false" />
-57-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:23:13-37
-58        <activity
-58-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:24:9-26:40
-59            android:name="com.example.portableDataTerminal.Activitys.InfoActivity"
-59-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:25:13-51
-60            android:exported="false" />
-60-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:26:13-37
-61        <activity
-61-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:27:9-29:40
-62            android:name="com.example.portableDataTerminal.Activitys.SyncActivity"
-62-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:28:13-51
-63            android:exported="false" />
-63-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:29:13-37
-64        <activity
-64-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:30:9-38:20
-65            android:name="com.example.portableDataTerminal.Activitys.MainActivity"
-65-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:31:13-51
-66            android:exported="true" >
-66-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:32:13-36
-67            <intent-filter>
-67-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:33:13-37:29
-68                <action android:name="android.intent.action.MAIN" />
-68-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:34:17-69
-68-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:34:25-66
-69
-70                <category android:name="android.intent.category.LAUNCHER" />
-70-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:36:17-77
-70-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:36:27-74
-71            </intent-filter>
-72        </activity>
-73
-74        <provider
-74-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-75            android:name="androidx.startup.InitializationProvider"
-75-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
-76            android:authorities="com.example.portableDataTerminal.androidx-startup"
-76-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
-77            android:exported="false" >
-77-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
-78            <meta-data
-78-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-79                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-79-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
-80                android:value="androidx.startup" />
-80-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
-81            <meta-data
-81-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\broma\.gradle\caches\transforms-3\d64e7ca6b93f4a6c092b1dd37cf249d6\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-82                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-82-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\broma\.gradle\caches\transforms-3\d64e7ca6b93f4a6c092b1dd37cf249d6\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-83                android:value="androidx.startup" />
-83-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\broma\.gradle\caches\transforms-3\d64e7ca6b93f4a6c092b1dd37cf249d6\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-84        </provider>
-85
-86        <activity
-86-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:47:9-53:63
-87            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-87-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:48:13-74
-88            android:clearTaskOnLaunch="true"
-88-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:49:13-45
-89            android:screenOrientation="sensorLandscape"
-89-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:50:13-56
-90            android:stateNotNeeded="true"
-90-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:51:13-42
-91            android:theme="@style/zxing_CaptureTheme"
-91-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:52:13-54
-92            android:windowSoftInputMode="stateAlwaysHidden" />
-92-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:53:13-60
-93    </application>
-94
-95</manifest>
+49        android:theme="@style/Theme.PortableDataTerminal"
+49-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:15:9-58
+50        android:usesCleartextTraffic="true" >
+50-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:16:9-44
+51        <activity
+51-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:18:9-20:40
+52            android:name="com.example.portableDataTerminal.Activitys.ShipmentActivity"
+52-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:19:13-55
+53            android:exported="false" />
+53-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:20:13-37
+54        <activity
+54-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:21:9-23:40
+55            android:name="com.example.portableDataTerminal.Activitys.AcceptanceActivity"
+55-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:22:13-57
+56            android:exported="false" />
+56-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:23:13-37
+57        <activity
+57-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:24:9-26:40
+58            android:name="com.example.portableDataTerminal.Activitys.InfoActivity"
+58-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:25:13-51
+59            android:exported="false" />
+59-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:26:13-37
+60        <activity
+60-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:27:9-29:40
+61            android:name="com.example.portableDataTerminal.Activitys.SyncActivity"
+61-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:28:13-51
+62            android:exported="false" />
+62-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:29:13-37
+63        <activity
+63-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:30:9-38:20
+64            android:name="com.example.portableDataTerminal.Activitys.MainActivity"
+64-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:31:13-51
+65            android:exported="true" >
+65-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:32:13-36
+66            <intent-filter>
+66-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:33:13-37:29
+67                <action android:name="android.intent.action.MAIN" />
+67-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:34:17-69
+67-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:34:25-66
+68
+69                <category android:name="android.intent.category.LAUNCHER" />
+69-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:36:17-77
+69-->G:\Portabledataterminal\app\src\main\AndroidManifest.xml:36:27-74
+70            </intent-filter>
+71        </activity>
+72
+73        <provider
+73-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+74            android:name="androidx.startup.InitializationProvider"
+74-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+75            android:authorities="com.example.portableDataTerminal.androidx-startup"
+75-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+76            android:exported="false" >
+76-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+77            <meta-data
+77-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+78                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+78-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+79                android:value="androidx.startup" />
+79-->[androidx.emoji2:emoji2:1.2.0] C:\Users\broma\.gradle\caches\transforms-3\66814d0c9c223a08105bc116aeb53dd5\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+80            <meta-data
+80-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\broma\.gradle\caches\transforms-3\d64e7ca6b93f4a6c092b1dd37cf249d6\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+81                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+81-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\broma\.gradle\caches\transforms-3\d64e7ca6b93f4a6c092b1dd37cf249d6\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+82                android:value="androidx.startup" />
+82-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\broma\.gradle\caches\transforms-3\d64e7ca6b93f4a6c092b1dd37cf249d6\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+83        </provider>
+84
+85        <activity
+85-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:47:9-53:63
+86            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+86-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:48:13-74
+87            android:clearTaskOnLaunch="true"
+87-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:49:13-45
+88            android:screenOrientation="sensorLandscape"
+88-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:50:13-56
+89            android:stateNotNeeded="true"
+89-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:51:13-42
+90            android:theme="@style/zxing_CaptureTheme"
+90-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:52:13-54
+91            android:windowSoftInputMode="stateAlwaysHidden" />
+91-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\broma\.gradle\caches\transforms-3\67a11b39af4c8d004f7fbafda0bf650b\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:53:13-60
+92    </application>
+93
+94</manifest>

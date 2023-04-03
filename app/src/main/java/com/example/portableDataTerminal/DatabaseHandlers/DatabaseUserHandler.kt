@@ -9,7 +9,14 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.portableDataTerminal.Models.UserDataModel
 
+/*
+ * Класс, содержащий в себе методы для работы с базой данной пользователей
+ */
 class DatabaseUserHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    /*
+     * Перечисление констрант
+     */
     companion object {
         private val DATABASE_VERSION = 3
         private val DATABASE_NAME = "ProductDatabase"
@@ -20,15 +27,25 @@ class DatabaseUserHandler(context: Context): SQLiteOpenHelper(context, DATABASE_
         private val KEY_PASSWORD = "password"
     }
 
+    /*
+     * Обработчик события создания базы данных, создающий
+     * новую таблицу с пользователями
+     */
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL("CREATE TABLE $TABLE_USERS ($KEY_ID INTEGER PRIMARY KEY, $KEY_IP TEXT, $KEY_NAME TEXT, $KEY_PASSWORD TEXT);")
     }
 
+    /*
+     * Обработчик события обновления базы данных
+     */
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL("DROP TABLE IF EXISTS $TABLE_USERS;")
         onCreate(db)
     }
 
+    /*
+     * Метод, добавляющий запись в таблицу с переданными значениями
+     */
     fun addUser(user: UserDataModel): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -45,6 +62,9 @@ class DatabaseUserHandler(context: Context): SQLiteOpenHelper(context, DATABASE_
         return success
     }
 
+    /*
+     * Метод, возвращающий список пользователей в базе данных
+     */
     @SuppressLint("Range")
     fun viewUsers(): List<UserDataModel> {
         val user_list: ArrayList<UserDataModel> = ArrayList()
@@ -85,21 +105,22 @@ class DatabaseUserHandler(context: Context): SQLiteOpenHelper(context, DATABASE_
         return user_list
     }
 
+    /*
+     * Метод, возвращающий ip для подключения к веб-серверу
+     */
     @SuppressLint("Recycle", "Range")
     fun getIp(user_name: String): String {
         var cursor: Cursor? = null
         val selectQuery = "SELECT ip FROM $TABLE_USERS WHERE name=$user_name"
-        var db = this.readableDatabase
 
         try{
-            cursor = db.rawQuery(selectQuery, null)
+            cursor = this.readableDatabase.rawQuery(selectQuery, null)
         } catch(e: SQLiteException) {
-            db.execSQL(selectQuery)
+            this.readableDatabase.execSQL(selectQuery)
             return "Error"
         }
 
         return cursor.getString(cursor.getColumnIndex("ip"))
     }
-
 
 }
