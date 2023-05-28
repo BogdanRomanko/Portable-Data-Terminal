@@ -26,25 +26,25 @@ public final class ActivityShipmentBinding implements ViewBinding {
   public final Button addButton;
 
   @NonNull
-  public final Button buttonShipment;
-
-  @NonNull
   public final LinearLayout linearLayout;
 
   @NonNull
   public final ScrollView scrollView;
 
   @NonNull
+  public final Button sendButton;
+
+  @NonNull
   public final TextView textView;
 
   private ActivityShipmentBinding(@NonNull ConstraintLayout rootView, @NonNull Button addButton,
-      @NonNull Button buttonShipment, @NonNull LinearLayout linearLayout,
-      @NonNull ScrollView scrollView, @NonNull TextView textView) {
+      @NonNull LinearLayout linearLayout, @NonNull ScrollView scrollView,
+      @NonNull Button sendButton, @NonNull TextView textView) {
     this.rootView = rootView;
     this.addButton = addButton;
-    this.buttonShipment = buttonShipment;
     this.linearLayout = linearLayout;
     this.scrollView = scrollView;
+    this.sendButton = sendButton;
     this.textView = textView;
   }
 
@@ -81,12 +81,6 @@ public final class ActivityShipmentBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.button_shipment;
-      Button buttonShipment = ViewBindings.findChildViewById(rootView, id);
-      if (buttonShipment == null) {
-        break missingId;
-      }
-
       id = R.id.linearLayout;
       LinearLayout linearLayout = ViewBindings.findChildViewById(rootView, id);
       if (linearLayout == null) {
@@ -99,14 +93,20 @@ public final class ActivityShipmentBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.send_button;
+      Button sendButton = ViewBindings.findChildViewById(rootView, id);
+      if (sendButton == null) {
+        break missingId;
+      }
+
       id = R.id.textView;
       TextView textView = ViewBindings.findChildViewById(rootView, id);
       if (textView == null) {
         break missingId;
       }
 
-      return new ActivityShipmentBinding((ConstraintLayout) rootView, addButton, buttonShipment,
-          linearLayout, scrollView, textView);
+      return new ActivityShipmentBinding((ConstraintLayout) rootView, addButton, linearLayout,
+          scrollView, sendButton, textView);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

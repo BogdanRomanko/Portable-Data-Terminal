@@ -24,9 +24,14 @@ id editText_product_count
 id editText_product_description
 id editText_product_name
 id fragmentContainerView
+id info_label
 id linearLayout
+id load_menu
 id main_layout
+id remove_item
+id save_menu
 id scrollView
+id send_button
 id textView
 layout activity_acceptance
 layout activity_info
@@ -34,6 +39,8 @@ layout activity_main
 layout activity_shipment
 layout activity_sync
 layout fragment_info
+menu remove_info
+menu save_load_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
 string acceptance_description
@@ -47,6 +54,7 @@ string info_card_description
 string info_description
 string main_description
 string reception
+string remove_fragment
 string scan
 string send_button
 string shipment

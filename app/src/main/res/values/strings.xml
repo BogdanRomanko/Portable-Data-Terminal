@@ -23,4 +23,5 @@
     <string name="send_button">Отправить</string>
     <string name="add_button">Добавить</string>
     <string name="data_update">Обновление данных</string>
+    <string name="remove_fragment">Удалить фрагмент</string>
 </resources>

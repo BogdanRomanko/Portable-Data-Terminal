@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -34,16 +35,20 @@ public final class FragmentInfoBinding implements ViewBinding {
   @NonNull
   public final EditText editTextProductName;
 
+  @NonNull
+  public final TextView infoLabel;
+
   private FragmentInfoBinding(@NonNull FrameLayout rootView,
       @NonNull EditText editTextProductArticle, @NonNull EditText editTextProductBarcode,
       @NonNull EditText editTextProductCount, @NonNull EditText editTextProductDescription,
-      @NonNull EditText editTextProductName) {
+      @NonNull EditText editTextProductName, @NonNull TextView infoLabel) {
     this.rootView = rootView;
     this.editTextProductArticle = editTextProductArticle;
     this.editTextProductBarcode = editTextProductBarcode;
     this.editTextProductCount = editTextProductCount;
     this.editTextProductDescription = editTextProductDescription;
     this.editTextProductName = editTextProductName;
+    this.infoLabel = infoLabel;
   }
 
   @Override
@@ -103,9 +108,15 @@ public final class FragmentInfoBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.info_label;
+      TextView infoLabel = ViewBindings.findChildViewById(rootView, id);
+      if (infoLabel == null) {
+        break missingId;
+      }
+
       return new FragmentInfoBinding((FrameLayout) rootView, editTextProductArticle,
           editTextProductBarcode, editTextProductCount, editTextProductDescription,
-          editTextProductName);
+          editTextProductName, infoLabel);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

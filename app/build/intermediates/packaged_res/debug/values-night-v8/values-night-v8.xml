@@ -10,6 +10,7 @@
     <string name="info_description">Отсканируйте штрихкод для получения информации о товаре</string>
     <string name="main_description">Мобильный терминал сбора данных</string>
     <string name="reception">Создать форму приёмки</string>
+    <string name="remove_fragment">Удалить фрагмент</string>
     <string name="scan">Сканировать</string>
     <string name="send_button">Отправить</string>
     <string name="shipment">Создать форму отгрузки</string>

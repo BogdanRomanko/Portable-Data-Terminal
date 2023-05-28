@@ -1,11 +1,15 @@
 package com.example.portableDataTerminal.Activitys
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.children
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
@@ -26,6 +30,9 @@ class ShipmentActivity : AppCompatActivity() {
      * формированием отчёта о приёмке товара
      */
     private lateinit var binding: ActivityShipmentBinding
+
+
+    private lateinit var remove_view: View
 
     /*
      * Обработчик события создания страницы
@@ -145,6 +152,12 @@ class ShipmentActivity : AppCompatActivity() {
                     fragment?.findViewById<EditText>(R.id.editText_product_description)?.setText(it.product_description)
                     fragment?.findViewById<EditText>(R.id.editText_product_count)?.setText(1.toString())
                     fragment?.findViewById<EditText>(R.id.editText_product_article)?.setText(it.product_article)
+
+                    fragment?.setOnLongClickListener {
+                        popupMenu(fragment)
+                        true
+                    }
+
                     return
                 }
             }
@@ -169,5 +182,46 @@ class ShipmentActivity : AppCompatActivity() {
             if (child.findViewById<EditText>(R.id.editText_product_barcode).text.toString() == "")
                 binding.linearLayout.removeView(child)
         }
+    }
+
+    private fun popupMenu(view: View) {
+        remove_view = view
+
+        val popup = PopupMenu(this, view)
+        popup.inflate(R.menu.remove_info)
+
+        popup.setOnMenuItemClickListener{
+                item: MenuItem? ->
+
+            when (item!!.itemId) {
+                R.id.remove_item -> {
+                    removeDialog()
+                }
+            }
+
+            true
+        }
+
+        popup.show()
+    }
+
+    private fun removeDialog() {
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
+        {
+            setTitle("Удаление фрагмента")
+            setMessage("Удалить фрагмент?")
+            setPositiveButton("Да", positiveButtonClick)
+            setNeutralButton("Отмена", cancelButtonClick)
+            show()
+        }
+    }
+
+    private val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+        binding.linearLayout.removeView(remove_view)
+    }
+
+    private val cancelButtonClick = { dialog: DialogInterface, which: Int ->
     }
 }

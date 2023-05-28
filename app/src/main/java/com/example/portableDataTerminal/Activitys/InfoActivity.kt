@@ -1,10 +1,16 @@
 package com.example.portableDataTerminal.Activitys
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
@@ -110,10 +116,11 @@ class InfoActivity : AppCompatActivity() {
      */
     @SuppressLint("SetTextI18n")
     private fun getData(barcode: String) {
-        try{
+        try {
             val products = DatabaseProductHandler(this)
+
             products.viewProducts().forEach {
-                if (it.product_barcode == barcode){
+                if (it.product_barcode == barcode) {
                     val fragment = binding.fragmentContainerView.getFragment<InfoFragment>().view
                     fragment?.findViewById<EditText>(R.id.editText_product_barcode)?.setText(it.product_barcode)
                     fragment?.findViewById<EditText>(R.id.editText_product_name)?.setText(it.product_name)

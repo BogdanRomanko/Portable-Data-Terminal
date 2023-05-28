@@ -1,22 +1,27 @@
 package com.example.portableDataTerminal.Activitys
 
-import okhttp3.Credentials
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.RetryPolicy
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseUserHandler
 import com.example.portableDataTerminal.Models.ProductDataModel
 import com.example.portableDataTerminal.Models.UserDataModel
-import com.example.portableDataTerminal.Products
+import com.example.portableDataTerminal.Utilies.Products
 import com.example.portableDataTerminal.databinding.ActivitySyncBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.*
+import okhttp3.Credentials
+import kotlin.math.roundToInt
+
 
 /*
  * Класс, содержащий в себе обработку страницы с
@@ -94,24 +99,24 @@ class SyncActivity : AppCompatActivity() {
      * Метод, посылающий веб-серверу get-запрос на получение
      * данных о товарах
      */
-    private fun getData(){
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun getData() {
         val userDbHandler = DatabaseUserHandler(this)
         val users: List<UserDataModel> = userDbHandler.viewUsers()
 
-        val url = "http://"+ users[0].ip + "/barcodes/hs/products/get_all_products"
+        val url = "http://" + users[0].ip + "/barcodes/hs/products/get_all_products"
         val queue = Volley.newRequestQueue(this)
 
-        val request = object: StringRequest(
+        val request = object : StringRequest(
             Method.GET,
             url,
             { result ->
                 val dataArray = object : TypeToken<Array<Products>>() {}.type
                 products = Gson().fromJson(result, dataArray)
             },
-            {
-                    error -> Log.d("ERROR", "Error: $error")
-            })
-        {
+            { error ->
+                Log.d("ERROR", "Error: $error")
+            }) {
             /*
              * Устанавливаем header запроса для авторизации
              * на стороне веб-сервера
@@ -120,13 +125,28 @@ class SyncActivity : AppCompatActivity() {
             override fun getHeaders(): MutableMap<String, String> {
                 val cred = Credentials.basic(users[0].user_name, users[0].user_password, Charsets.UTF_8)
                 val headers = HashMap<String, String>()
-                headers.put("Authorization", cred)
+                headers["Authorization"] = cred
                 return headers
                 //0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YAgKNCk0LXQtNC+0YDQvtCy0JHQnCk6
             }
         }
 
+        request.retryPolicy = object : RetryPolicy {
+            override fun getCurrentTimeout(): Int {
+                return 30000
+            }
+
+            override fun getCurrentRetryCount(): Int {
+                return 30000
+            }
+
+            @Throws(VolleyError::class)
+            override fun retry(error: VolleyError) {
+            }
+        }
+
         queue.add(request)
+
         if (products.isNotEmpty())
             saveData(products)
     }
@@ -137,6 +157,7 @@ class SyncActivity : AppCompatActivity() {
      */
     private fun saveData(products: Array<Products>){
         Toast.makeText(this, "Обновление базы данных", Toast.LENGTH_LONG).show()
+        Log.d("prod size", products.size.toString())
 
         /*
          * Создаём объект обработчика базы данных Products
@@ -146,18 +167,20 @@ class SyncActivity : AppCompatActivity() {
         productDbHandler.onUpgrade(productDbHandler.writableDatabase, 3, 3)
 
         products.forEachIndexed { index, it ->
-                productDbHandler.addProduct(ProductDataModel(
-                    index.toString(),
-                    it.id.toString(),
-                    it.name.toString(),
-                    it.description.toString(),
-                    it.article.toString(),
-                    it.barcode.toString(),
-                    it.count!!.toInt()
-                ))
+
+            val count = it.count!!.toDouble()
+
+            productDbHandler.addProduct(ProductDataModel(
+                index.toString(),
+                it.id.toString(),
+                it.name.toString(),
+                it.description.toString(),
+                it.article.toString(),
+                it.barcode.toString(),
+                count.roundToInt()
+            ))
         }
 
         Toast.makeText(this, "Обновление базы данных завершено", Toast.LENGTH_LONG).show()
     }
-
 }
