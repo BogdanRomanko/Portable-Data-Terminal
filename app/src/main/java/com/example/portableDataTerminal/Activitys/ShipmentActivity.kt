@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -57,13 +58,30 @@ class ShipmentActivity : AppCompatActivity() {
         binding.addButton.setOnClickListener { add_product() }
     }
 
-    /*
-    * Обработчик события уничтожения страницы
-    */
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.textView.text = R.string.tmp_description.toString()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.save_load_menu, menu)
+        return true
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+
+        when (item.itemId)
+        {
+            R.id.save_menu  ->
+            {
+
+            }
+            R.id.load_menu  ->
+            {
+
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
 
     /*
      * Обработчик событий для кнопки сканирования нового

@@ -29,6 +29,8 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
         private val KEY_PRODUCTS = "products"
     }
 
+    private val context = context
+
     /*
      * Обработчик события создания базы данных, создающий
      * новую таблицу с продуктами
@@ -54,11 +56,22 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
     fun addDocument(document: DocumentDataModel): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues()
+        var stringProducts = ""
+
+        if (checkName(document.name)) {
+            db!!.execSQL("DELETE FROM $TABLE_DOCUMENTS WHERE $KEY_NAME = '${document.name}'")
+        }
 
         contentValues.put(KEY_ID, document.id)
         contentValues.put(KEY_NAME, document.name)
-        Log.d("product_list", JSONArray(document.product_list).toString())
-        contentValues.put(KEY_PRODUCTS, JSONArray(document.product_list).toString())
+
+        document.product_list.forEach {
+            stringProducts += "${it.product_barcode}, ${it.product_count} |"
+        }
+
+        stringProducts = stringProducts.substring(0, stringProducts.length-1)
+
+        contentValues.put(KEY_PRODUCTS, stringProducts)
 
         val success = db.insert(TABLE_DOCUMENTS, null, contentValues)
 
@@ -84,7 +97,6 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
             return ArrayList()
         }
 
-        var id: String
         var document_id: String
         var document_name: String
         var product_list: String
@@ -95,20 +107,34 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
                 document_name = cursor.getString(cursor.getColumnIndex("name"))
                 product_list = cursor.getString(cursor.getColumnIndex("products"))
 
-                val gson = GsonBuilder().create()
-                val products = gson.fromJson<ArrayList<Products>>(
-                    product_list,
-                    object : TypeToken<Array<Products>>() {}.type
-                )
+                val databaseProductHandler = DatabaseProductHandler(context)
+                val allProducts = databaseProductHandler.viewProducts()
+                val products = arrayListOf<ProductDataModel>()
 
-                products.forEach {
-                    Log.d("products", it.toString())
+                val all = product_list.split("|")
+
+                all.forEach { item ->
+                    val product = item.split(",")
+
+                    allProducts.forEach {
+                        if (product[0].trim() == it.product_barcode) {
+                            products.add(ProductDataModel(
+                                it.id,
+                                it.product_id,
+                                it.product_name,
+                                it.product_description,
+                                it.product_article,
+                                it.product_barcode,
+                                product[1].trim().toInt()
+                            ))
+                        }
+                    }
                 }
 
                 val document = DocumentDataModel(
                     id = document_id,
                     name = document_name,
-                    product_list = products,
+                    product_list = products
                 )
 
                 document_list.add(document)
@@ -116,5 +142,16 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
         }
 
         return document_list
+    }
+
+    private fun checkName(name: String?): Boolean {
+        val list = viewDocuments()
+
+        list.forEach {
+            if (it.name == name)
+                return true
+        }
+
+        return false
     }
 }
