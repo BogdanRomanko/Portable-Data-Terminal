@@ -13,9 +13,12 @@ import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.children
+import com.example.portableDataTerminal.DatabaseHandlers.DatabaseDocumentHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
 import com.example.portableDataTerminal.Fragments.InfoFragment
+import com.example.portableDataTerminal.Models.DocumentDataModel
 import com.example.portableDataTerminal.R
+import com.example.portableDataTerminal.Utilies.DocumentLoader
 import com.example.portableDataTerminal.databinding.ActivityShipmentBinding
 import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanOptions
@@ -33,7 +36,7 @@ class ShipmentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShipmentBinding
 
 
-    private lateinit var remove_view: View
+    private lateinit var removeView: View
 
     /*
      * Обработчик события создания страницы
@@ -55,7 +58,7 @@ class ShipmentActivity : AppCompatActivity() {
         /*
          * Привязываем обработчики событий к кнопкам
          */
-        binding.addButton.setOnClickListener { add_product() }
+        binding.addButton.setOnClickListener { addProduct() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -69,26 +72,102 @@ class ShipmentActivity : AppCompatActivity() {
 
         when (item.itemId)
         {
-            R.id.save_menu  ->
-            {
-
+            R.id.save_menu  -> run {
+                saveDialog(EditText(this))
             }
             R.id.load_menu  ->
             {
-
+                loadDialog(DatabaseDocumentHandler(this).viewDocuments())
             }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
+    private fun saveDialog(editText: EditText) {
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
+        {
+            setTitle("Сохранение документа")
+            setMessage("Введите название документа")
+            setView(editText)
+            setPositiveButton("Сохранить") { dialog: DialogInterface, which: Int ->
+                val documentLoader = DocumentLoader()
+                val result = documentLoader.saveDocument(
+                    binding.linearLayout.children,
+                    editText.text.toString(),
+                    context,
+                    "shipment"
+                )
+
+                if (result == documentLoader.SUCCESS)
+                    Toast.makeText(context, "Сохранение успешно", Toast.LENGTH_LONG).show()
+                else if (result == documentLoader.ERROR)
+                    Toast.makeText(context, "Ошибка сохранения", Toast.LENGTH_LONG).show()
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+                Toast.makeText(context, "Сохранение отменено", Toast.LENGTH_LONG).show()
+            }
+            show()
+        }
+    }
+
+    private fun loadDialog(documents: List<DocumentDataModel>) {
+        val builder = AlertDialog.Builder(this)
+        val items: ArrayList<String> = arrayListOf()
+
+
+        documents.forEachIndexed { index, document ->
+            if (document.document_type == "shipment")
+                items.add(document.name.toString())
+        }
+
+        val docs: Array<String> = Array(items.size) { "" }
+        items.forEachIndexed { index, item ->
+            docs[index] = item
+        }
+
+        with(builder)
+        {
+            setTitle("Загрузка документа")
+            setItems(docs) { dialog, which ->
+                var id = 0
+
+                documents.forEach {
+                    if (it.name == docs[which])
+                        id = it.id.toString().toInt()
+                }
+
+                val documentLoader = DocumentLoader()
+                val fragments = documentLoader.loadDocument(id, context)
+
+                fragments.forEach { fragment ->
+                    supportFragmentManager.beginTransaction().add(R.id.linearLayout, fragment)
+                        .commitNow()
+
+                    fragment.view?.setOnLongClickListener {
+                        popupMenu(it)
+                        true
+                    }
+                }
+
+                documentLoader.loadData(DatabaseDocumentHandler(context).getDocument(id), fragments)
+                binding.textView.text = ""
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+                Toast.makeText(context, "Загрузка отменена", Toast.LENGTH_LONG).show()
+            }
+            show()
+        }
+    }
 
     /*
      * Обработчик событий для кнопки сканирования нового
      * штрих-кода
      */
     @SuppressLint("CommitTransaction")
-    private fun add_product() {
+    private fun addProduct() {
         binding.textView.text = ""
 
         /*
@@ -203,12 +282,12 @@ class ShipmentActivity : AppCompatActivity() {
     }
 
     private fun popupMenu(view: View) {
-        remove_view = view
+        removeView = view
 
         val popup = PopupMenu(this, view)
         popup.inflate(R.menu.remove_info)
 
-        popup.setOnMenuItemClickListener{
+        popup.setOnMenuItemClickListener {
                 item: MenuItem? ->
 
             when (item!!.itemId) {
@@ -230,16 +309,12 @@ class ShipmentActivity : AppCompatActivity() {
         {
             setTitle("Удаление фрагмента")
             setMessage("Удалить фрагмент?")
-            setPositiveButton("Да", positiveButtonClick)
-            setNeutralButton("Отмена", cancelButtonClick)
+            setPositiveButton("Да") { dialog: DialogInterface, which: Int ->
+                binding.linearLayout.removeView(removeView)
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+            }
             show()
         }
-    }
-
-    private val positiveButtonClick = { dialog: DialogInterface, which: Int ->
-        binding.linearLayout.removeView(remove_view)
-    }
-
-    private val cancelButtonClick = { dialog: DialogInterface, which: Int ->
     }
 }

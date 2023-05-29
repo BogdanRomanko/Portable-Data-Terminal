@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,6 +16,7 @@ import androidx.core.view.children
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseDocumentHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
 import com.example.portableDataTerminal.Fragments.InfoFragment
+import com.example.portableDataTerminal.Models.DocumentDataModel
 import com.example.portableDataTerminal.R
 import com.example.portableDataTerminal.Utilies.DocumentLoader
 import com.example.portableDataTerminal.databinding.ActivityAcceptanceBinding
@@ -36,8 +36,7 @@ class AcceptanceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAcceptanceBinding
 
 
-    private lateinit var remove_view: View
-    private lateinit var editText_SaveName: EditText
+    private lateinit var removeView: View
 
     /*
      * Обработчик события создания страницы
@@ -59,7 +58,7 @@ class AcceptanceActivity : AppCompatActivity() {
         /*
          * Привязываем обработчики событий к кнопкам
          */
-        binding.addButton.setOnClickListener { add_product() }
+        binding.addButton.setOnClickListener { addProduct() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -74,12 +73,11 @@ class AcceptanceActivity : AppCompatActivity() {
         when (item.itemId)
         {
             R.id.save_menu  -> run {
-                editText_SaveName = EditText(this)
-                saveDialog(editText_SaveName)
+                saveDialog(EditText(this))
             }
             R.id.load_menu  ->
             {
-
+                loadDialog(DatabaseDocumentHandler(this).viewDocuments())
             }
         }
 
@@ -92,26 +90,75 @@ class AcceptanceActivity : AppCompatActivity() {
         with(builder)
         {
             setTitle("Сохранение документа")
-            setMessage("Сохранить документ?")
+            setMessage("Введите название документа")
             setView(editText)
-            setPositiveButton("Да", saveDocument)
-            setNeutralButton("Отмена", cancelSaveDocument)
+            setPositiveButton("Сохранить") { dialog: DialogInterface, which: Int ->
+                val documentLoader = DocumentLoader()
+                val result = documentLoader.saveDocument(
+                    binding.linearLayout.children,
+                    editText.text.toString(),
+                    context,
+                    "acceptance"
+                )
+
+                if (result == documentLoader.SUCCESS)
+                    Toast.makeText(context, "Сохранение успешно", Toast.LENGTH_LONG).show()
+                else if (result == documentLoader.ERROR)
+                    Toast.makeText(context, "Ошибка сохранения", Toast.LENGTH_LONG).show()
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+                Toast.makeText(context, "Сохранение отменено", Toast.LENGTH_LONG).show()
+            }
             show()
         }
     }
 
-    private val saveDocument = { dialog: DialogInterface, which: Int ->
-        val documentLoader = DocumentLoader()
-        val result = documentLoader.saveDocument(binding.linearLayout.children, editText_SaveName.text.toString(), this)
+    private fun loadDialog(documents: List<DocumentDataModel>) {
+        val builder = AlertDialog.Builder(this)
+        val items: ArrayList<String> = arrayListOf()
 
-        if (result == documentLoader.SUCCESS)
-            Toast.makeText(this, "Сохранение успешно", Toast.LENGTH_LONG).show()
-        else if (result == documentLoader.ERROR)
-            Toast.makeText(this, "Ошибка сохранения", Toast.LENGTH_LONG).show()
-    }
+        documents.forEachIndexed { index, document ->
+            if (document.document_type == "acceptance")
+                items.add(document.name.toString())
+        }
 
-    private val cancelSaveDocument = { dialog: DialogInterface, which: Int ->
-        Toast.makeText(this, "Сохранение отменено", Toast.LENGTH_LONG).show()
+        val docs: Array<String> = Array(items.size) { "" }
+        items.forEachIndexed { index, item ->
+            docs[index] = item
+        }
+
+        with(builder)
+        {
+            setTitle("Загрузка документа")
+            setItems(docs) { dialog, which ->
+                var id = 0
+
+                documents.forEach {
+                    if (it.name == docs[which])
+                        id = it.id.toString().toInt()
+                }
+
+                val documentLoader = DocumentLoader()
+                val fragments = documentLoader.loadDocument(id, context)
+
+                fragments.forEach { fragment ->
+                    supportFragmentManager.beginTransaction().add(R.id.linearLayout, fragment)
+                        .commitNow()
+
+                    fragment.view?.setOnLongClickListener {
+                        popupMenu(it)
+                        true
+                    }
+                }
+
+                documentLoader.loadData(DatabaseDocumentHandler(context).getDocument(id), fragments)
+                binding.textView.text = ""
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+                Toast.makeText(context, "Загрузка отменена", Toast.LENGTH_LONG).show()
+            }
+            show()
+        }
     }
 
     /*
@@ -119,7 +166,7 @@ class AcceptanceActivity : AppCompatActivity() {
      * штрих-кода
      */
     @SuppressLint("CommitTransaction")
-    private fun add_product() {
+    private fun addProduct() {
         binding.textView.text = ""
 
         /*
@@ -132,7 +179,7 @@ class AcceptanceActivity : AppCompatActivity() {
     }
 
     /*
-     * Метод, всоздающий объект сканера штрих-кодов и вызывающий его работу
+     * Метод, создающий объект сканера штрих-кодов и вызывающий его работу
      */
     private fun getInfo() {
         val scanner = IntentIntegrator(this)
@@ -171,8 +218,7 @@ class AcceptanceActivity : AppCompatActivity() {
              * Создаём объект обработчика базы данных Products и ищем совпадение
              * отсканированного штрих-кода с базой данных
              */
-            val products = DatabaseProductHandler(this)
-            products.viewProducts().forEach {
+            DatabaseProductHandler(this).viewProducts().forEach {
                 if (it.product_barcode == barcode){
 
                     /*
@@ -233,7 +279,7 @@ class AcceptanceActivity : AppCompatActivity() {
     }
 
     private fun popupMenu(view: View) {
-        remove_view = view
+        removeView = view
 
         val popup = PopupMenu(this, view)
         popup.inflate(R.menu.remove_info)
@@ -260,17 +306,13 @@ class AcceptanceActivity : AppCompatActivity() {
         {
             setTitle("Удаление фрагмента")
             setMessage("Удалить фрагмент?")
-            setPositiveButton("Да", removeFragment)
-            setNeutralButton("Отмена", cancelRemoveFragment)
+            setPositiveButton("Да") { dialog: DialogInterface, which: Int ->
+                binding.linearLayout.removeView(removeView)
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+            }
             show()
         }
-    }
-
-    private val removeFragment = { dialog: DialogInterface, which: Int ->
-        binding.linearLayout.removeView(remove_view)
-    }
-
-    private val cancelRemoveFragment = { dialog: DialogInterface, which: Int ->
     }
 
 }

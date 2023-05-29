@@ -7,38 +7,32 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.example.portableDataTerminal.Models.DocumentDataModel
 import com.example.portableDataTerminal.Models.ProductDataModel
-import com.example.portableDataTerminal.Utilies.Products
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import org.json.JSONArray
 
-class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     /*
      * Перечисление констрант
      */
     companion object {
-        private val DATABASE_VERSION = 3
+        private val DATABASE_VERSION = 6
         private val DATABASE_NAME = "DocumentDatabase"
         private val TABLE_DOCUMENTS = "Documents"
         private val KEY_ID = "id"
         private val KEY_NAME = "name"
         private val KEY_PRODUCTS = "products"
+        private val KEY_TYPE = "type"
     }
-
-    private val context = context
 
     /*
      * Обработчик события создания базы данных, создающий
-     * новую таблицу с продуктами
+     * новую таблицу с документами
      */
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
             "CREATE TABLE $TABLE_DOCUMENTS ($KEY_ID INTEGER PRIMARY KEY," +
-                    " $KEY_NAME TEXT, $KEY_PRODUCTS TEXT);"
+                    " $KEY_NAME TEXT, $KEY_PRODUCTS TEXT, $KEY_TYPE TEXT);"
         )
     }
 
@@ -72,6 +66,7 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
         stringProducts = stringProducts.substring(0, stringProducts.length-1)
 
         contentValues.put(KEY_PRODUCTS, stringProducts)
+        contentValues.put(KEY_TYPE, document.document_type)
 
         val success = db.insert(TABLE_DOCUMENTS, null, contentValues)
 
@@ -81,7 +76,7 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
     }
 
     /*
-     * Метод, возвращающий список продуктов в базе данных
+     * Метод, возвращающий список документов в базе данных
      */
     @SuppressLint("Range")
     fun viewDocuments(): List<DocumentDataModel> {
@@ -100,12 +95,14 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
         var document_id: String
         var document_name: String
         var product_list: String
+        var document_type: String
 
         if (cursor.moveToFirst()) {
             do {
                 document_id = cursor.getString(cursor.getColumnIndex("id"))
                 document_name = cursor.getString(cursor.getColumnIndex("name"))
                 product_list = cursor.getString(cursor.getColumnIndex("products"))
+                document_type = cursor.getString(cursor.getColumnIndex("type"))
 
                 val databaseProductHandler = DatabaseProductHandler(context)
                 val allProducts = databaseProductHandler.viewProducts()
@@ -134,7 +131,8 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
                 val document = DocumentDataModel(
                     id = document_id,
                     name = document_name,
-                    product_list = products
+                    product_list = products,
+                    document_type = document_type
                 )
 
                 document_list.add(document)
@@ -142,6 +140,14 @@ class DatabaseDocumentHandler(context: Context): SQLiteOpenHelper(context, DATAB
         }
 
         return document_list
+    }
+
+    fun getDocument(id: Int): DocumentDataModel {
+       viewDocuments().forEach { document ->
+           if (document.id == id.toString())
+               return document
+       }
+        return DocumentDataModel("0", "!!null!!", arrayListOf(), "!!null!!")
     }
 
     private fun checkName(name: String?): Boolean {
