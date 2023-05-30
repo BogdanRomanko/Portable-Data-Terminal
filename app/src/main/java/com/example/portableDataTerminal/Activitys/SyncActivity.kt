@@ -101,8 +101,7 @@ class SyncActivity : AppCompatActivity() {
      */
     @OptIn(DelicateCoroutinesApi::class)
     private fun getData() {
-        val userDbHandler = DatabaseUserHandler(this)
-        val users: List<UserDataModel> = userDbHandler.viewUsers()
+        val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
 
         val url = "http://" + users[0].ip + "/barcodes/hs/products/get_all_products"
         val queue = Volley.newRequestQueue(this)
@@ -157,7 +156,6 @@ class SyncActivity : AppCompatActivity() {
      */
     private fun saveData(products: Array<Products>){
         Toast.makeText(this, "Обновление базы данных", Toast.LENGTH_LONG).show()
-        Log.d("prod size", products.size.toString())
 
         /*
          * Создаём объект обработчика базы данных Products

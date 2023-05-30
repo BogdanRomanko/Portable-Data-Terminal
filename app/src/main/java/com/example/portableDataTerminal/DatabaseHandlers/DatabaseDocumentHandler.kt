@@ -157,6 +157,7 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
            if (document.id == id.toString())
                return document
        }
+
         return DocumentDataModel("0", "!!null!!", arrayListOf(), "!!null!!")
     }
 

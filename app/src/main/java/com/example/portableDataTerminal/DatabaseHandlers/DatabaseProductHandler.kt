@@ -121,4 +121,13 @@ class DatabaseProductHandler(context: Context):  SQLiteOpenHelper(context, DATAB
 
         return product_list
     }
+
+    fun getProduct(barcode: String): ProductDataModel {
+        viewProducts().forEach {
+            if (barcode == it.product_barcode)
+                return ProductDataModel(it.id, it.product_id, it.product_name, it.product_description, it.product_article, it.product_barcode, it.product_count)
+        }
+
+        return ProductDataModel("", "", "", "", "", "", 0)
+    }
 }
