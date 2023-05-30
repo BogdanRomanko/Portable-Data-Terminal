@@ -3182,6 +3182,7 @@ int id progress_horizontal 0x7f090161
 int id radio 0x7f090162
 int id ratio 0x7f090163
 int id rectangles 0x7f090164
+int id remove_document 0x7f09020f
 int id remove_item 0x7f09020c
 int id reverseSawtooth 0x7f090165
 int id right 0x7f090166
@@ -3541,7 +3542,8 @@ int layout select_dialog_singlechoice_material 0x7f0c006d
 int layout support_simple_spinner_dropdown_item 0x7f0c006e
 int layout zxing_barcode_scanner 0x7f0c006f
 int layout zxing_capture 0x7f0c0070
-int menu remove_info 0x7f150000
+int menu remove_document_menu 0x7f150002
+int menu remove_info_menu 0x7f150003
 int menu save_load_menu 0x7f150001
 int mipmap ic_launcher 0x7f0e0000
 int mipmap ic_launcher_round 0x7f0e0001

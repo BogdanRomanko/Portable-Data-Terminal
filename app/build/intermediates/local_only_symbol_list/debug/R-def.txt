@@ -28,6 +28,7 @@ id info_label
 id linearLayout
 id load_menu
 id main_layout
+id remove_document
 id remove_item
 id save_menu
 id scrollView
@@ -39,7 +40,8 @@ layout activity_main
 layout activity_shipment
 layout activity_sync
 layout fragment_info
-menu remove_info
+menu remove_document_menu
+menu remove_info_menu
 menu save_load_menu
 mipmap ic_launcher
 mipmap ic_launcher_round

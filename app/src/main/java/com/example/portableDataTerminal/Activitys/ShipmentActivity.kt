@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.children
@@ -34,7 +35,6 @@ class ShipmentActivity : AppCompatActivity() {
      * формированием отчёта о приёмке товара
      */
     private lateinit var binding: ActivityShipmentBinding
-
 
     private lateinit var removeView: View
 
@@ -158,8 +158,19 @@ class ShipmentActivity : AppCompatActivity() {
             setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
                 Toast.makeText(context, "Загрузка отменена", Toast.LENGTH_LONG).show()
             }
-            show()
         }
+
+        val dialog = builder.create()
+
+        dialog.setOnShowListener {
+            val lv: ListView = dialog.listView
+            lv.setOnItemLongClickListener { parent, view, position, id ->
+                popupListViewItems(view, docs[position], dialog)
+                true
+            }
+        }
+
+        dialog.show()
     }
 
     /*
@@ -285,14 +296,14 @@ class ShipmentActivity : AppCompatActivity() {
         removeView = view
 
         val popup = PopupMenu(this, view)
-        popup.inflate(R.menu.remove_info)
+        popup.inflate(R.menu.remove_info_menu)
 
         popup.setOnMenuItemClickListener {
                 item: MenuItem? ->
 
             when (item!!.itemId) {
                 R.id.remove_item -> {
-                    removeDialog()
+                    removeFragmentDialog()
                 }
             }
 
@@ -302,7 +313,35 @@ class ShipmentActivity : AppCompatActivity() {
         popup.show()
     }
 
-    private fun removeDialog() {
+    private fun popupListViewItems(view: View, name: String, dialog: AlertDialog) {
+        val popup = PopupMenu(this, view)
+
+        popup.inflate(R.menu.remove_document_menu)
+
+        popup.setOnMenuItemClickListener { item: MenuItem? ->
+
+            when (item!!.itemId) {
+                R.id.remove_document -> {
+                    var id = 0
+
+                    DatabaseDocumentHandler(this).viewDocuments().forEach {
+                        if (it.name == name && it.document_type == "shipment") {
+                            id = it.id?.toInt()!!
+                            return@forEach
+                        }
+                    }
+
+                    removeDocumentDialog(id, dialog)
+                }
+            }
+
+            true
+        }
+
+        popup.show()
+    }
+
+    private fun removeFragmentDialog() {
         val builder = AlertDialog.Builder(this)
 
         with(builder)
@@ -311,6 +350,24 @@ class ShipmentActivity : AppCompatActivity() {
             setMessage("Удалить фрагмент?")
             setPositiveButton("Да") { dialog: DialogInterface, which: Int ->
                 binding.linearLayout.removeView(removeView)
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+            }
+            show()
+        }
+    }
+
+    private fun removeDocumentDialog(id: Int, alertDialog: AlertDialog) {
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
+        {
+            setTitle("Удаление документа")
+            setMessage("Удалить документ?")
+            setPositiveButton("Да") { dialog: DialogInterface, which: Int ->
+                DatabaseDocumentHandler(context).deleteDocument(id)
+                alertDialog.cancel()
+                loadDialog(DatabaseDocumentHandler(context).viewDocuments())
             }
             setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
             }

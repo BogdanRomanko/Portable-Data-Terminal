@@ -3183,6 +3183,7 @@ id progress_horizontal
 id radio
 id ratio
 id rectangles
+id remove_document
 id remove_item
 id reverseSawtooth
 id right
@@ -3542,7 +3543,8 @@ layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 layout zxing_barcode_scanner
 layout zxing_capture
-menu remove_info
+menu remove_document_menu
+menu remove_info_menu
 menu save_load_menu
 mipmap ic_launcher
 mipmap ic_launcher_round

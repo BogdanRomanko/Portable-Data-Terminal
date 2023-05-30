@@ -16,7 +16,7 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
      * Перечисление констрант
      */
     companion object {
-        private val DATABASE_VERSION = 6
+        private val DATABASE_VERSION = 8
         private val DATABASE_NAME = "DocumentDatabase"
         private val TABLE_DOCUMENTS = "Documents"
         private val KEY_ID = "id"
@@ -48,7 +48,7 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
      * Метод, добавляющий запись в таблицу с переданными значениями
      */
     fun addDocument(document: DocumentDataModel): Long {
-        val db = this.writableDatabase
+        val db = writableDatabase
         val contentValues = ContentValues()
         var stringProducts = ""
 
@@ -142,6 +142,16 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
         return document_list
     }
 
+    fun deleteDocument(id: Int): Boolean {
+        try {
+            val db = writableDatabase
+            db!!.execSQL("DELETE FROM $TABLE_DOCUMENTS WHERE $KEY_ID = $id")
+            return true
+        } catch (e: java.lang.Exception) {
+            return false
+        }
+    }
+
     fun getDocument(id: Int): DocumentDataModel {
        viewDocuments().forEach { document ->
            if (document.id == id.toString())
@@ -151,9 +161,7 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
     }
 
     private fun checkName(name: String?): Boolean {
-        val list = viewDocuments()
-
-        list.forEach {
+        viewDocuments().forEach {
             if (it.name == name)
                 return true
         }
