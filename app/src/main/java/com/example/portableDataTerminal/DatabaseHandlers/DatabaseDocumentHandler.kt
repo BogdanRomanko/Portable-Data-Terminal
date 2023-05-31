@@ -7,8 +7,10 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.example.portableDataTerminal.Models.DocumentDataModel
 import com.example.portableDataTerminal.Models.ProductDataModel
+import okhttp3.internal.notifyAll
 
 class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -16,7 +18,7 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
      * Перечисление констрант
      */
     companion object {
-        private val DATABASE_VERSION = 8
+        private val DATABASE_VERSION = 9
         private val DATABASE_NAME = "DocumentDatabase"
         private val TABLE_DOCUMENTS = "Documents"
         private val KEY_ID = "id"
@@ -60,7 +62,7 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
         contentValues.put(KEY_NAME, document.name)
 
         document.product_list.forEach {
-            stringProducts += "${it.product_barcode}, ${it.product_count} |"
+            stringProducts += "${it.product_name}, ${it.product_description}, ${it.product_article},${it.product_barcode}, ${it.product_count} |"
         }
 
         stringProducts = stringProducts.substring(0, stringProducts.length-1)
@@ -112,17 +114,18 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
 
                 all.forEach { item ->
                     val product = item.split(",")
+                    Log.d("products", product.toString())
 
                     allProducts.forEach {
-                        if (product[0].trim() == it.product_barcode) {
+                        if (product[3].trim() == it.product_barcode) {
                             products.add(ProductDataModel(
                                 it.id,
                                 it.product_id,
-                                it.product_name,
-                                it.product_description,
-                                it.product_article,
+                                product[0].trim(),
+                                product[1].trim(),
+                                product[2].trim(),
                                 it.product_barcode,
-                                product[1].trim().toInt()
+                                product[4].trim().toInt()
                             ))
                         }
                     }
@@ -143,12 +146,12 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
     }
 
     fun deleteDocument(id: Int): Boolean {
-        try {
+        return try {
             val db = writableDatabase
             db!!.execSQL("DELETE FROM $TABLE_DOCUMENTS WHERE $KEY_ID = $id")
-            return true
+            true
         } catch (e: java.lang.Exception) {
-            return false
+            false
         }
     }
 

@@ -397,9 +397,9 @@ class ShipmentActivity : AppCompatActivity() {
                     "shipment"
                 )
 
-                if (result == documentLoader.SUCCESS)
+                if (result == DocumentLoader.SUCCESS)
                     Toast.makeText(context, "Сохранение успешно", Toast.LENGTH_LONG).show()
-                else if (result == documentLoader.ERROR)
+                else if (result == DocumentLoader.ERROR)
                     Toast.makeText(context, "Ошибка сохранения", Toast.LENGTH_LONG).show()
             }
             setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->

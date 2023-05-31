@@ -11,8 +11,10 @@ import com.example.portableDataTerminal.R
 
 class DocumentLoader {
 
-    val SUCCESS = 1
-    val ERROR = 0
+    companion object {
+        const val SUCCESS = 1
+        const val ERROR = 0
+    }
 
     fun saveDocument(fragments: Sequence<View>, name: String, context: Context, type: String): Int {
         val databaseDocumentHandler = DatabaseDocumentHandler(context)
