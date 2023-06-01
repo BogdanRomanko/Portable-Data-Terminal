@@ -35,27 +35,27 @@ class InfoActivity : AppCompatActivity() {
      * Обработчик события создания страницы
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        /*
-         * Устанавливаем переменную binding для доступа
-         * к xml-представлению страницы
-         */
         super.onCreate(savedInstanceState)
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
-         * Устанавливаем заголовок страницы
-         */
         title = "Информация о товаре"
 
-        /*
-         * Приязываем обработчики событий для кнопок
-         */
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.buttonAcceptance.setOnClickListener { getInfo() }
     }
 
     /*
-     * Обработчик события запуска страницы на мобильном телефоне
+     * Обработчик для кнопки возврата
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    /*
+     * Обработчик события запуска страницы
      */
     override fun onStart() {
         super.onStart()
@@ -75,8 +75,15 @@ class InfoActivity : AppCompatActivity() {
         val editText_product_count = fragment?.findViewById<EditText>(R.id.editText_product_count)
         val editText_product_article = fragment?.findViewById<EditText>(R.id.editText_product_article)
 
-        val ar = arrayOf(editText_product_name, editText_product_description, editText_product_barcode, editText_product_count, editText_product_article)
-        ar.forEach {
+        val editTexts = arrayOf(
+            editText_product_name,
+            editText_product_description,
+            editText_product_barcode,
+            editText_product_count,
+            editText_product_article
+        )
+
+        editTexts.forEach {
             if (it != null) {
                 it.isFocusable = false
                 it.isClickable = false
@@ -97,6 +104,7 @@ class InfoActivity : AppCompatActivity() {
     /*
      * Обработчик события срабатывания сканера
      */
+    @Deprecated("Deprecated in Java")
     @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)

@@ -12,6 +12,9 @@ import com.example.portableDataTerminal.Models.DocumentDataModel
 import com.example.portableDataTerminal.Models.ProductDataModel
 import okhttp3.internal.notifyAll
 
+/*
+ * Класс для работы с базой данных документов
+ */
 class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     /*
@@ -145,6 +148,9 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
         return document_list
     }
 
+    /*
+     * Метод, удаляющий документ из базы данных
+     */
     fun deleteDocument(id: Int): Boolean {
         return try {
             val db = writableDatabase
@@ -155,6 +161,9 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
         }
     }
 
+    /*
+     * Метод, отдающий документ из базы данных по id
+     */
     fun getDocument(id: Int): DocumentDataModel {
        viewDocuments().forEach { document ->
            if (document.id == id.toString())
@@ -164,6 +173,9 @@ class DatabaseDocumentHandler(private val context: Context): SQLiteOpenHelper(co
         return DocumentDataModel("0", "!!null!!", arrayListOf(), "!!null!!")
     }
 
+    /*
+     * Метод, проверяющий существует ли уже документ с таким именем
+     */
     private fun checkName(name: String?): Boolean {
         viewDocuments().forEach {
             if (it.name == name)

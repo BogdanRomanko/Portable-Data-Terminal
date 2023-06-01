@@ -9,13 +9,23 @@ import com.example.portableDataTerminal.Models.DocumentDataModel
 import com.example.portableDataTerminal.Models.ProductDataModel
 import com.example.portableDataTerminal.R
 
+/*
+ * Вспомогательный класс для сохранения и загрузки документов
+ */
 class DocumentLoader {
 
+    /*
+     * Константы для результата загрузки/сохранения документов
+     */
     companion object {
         const val SUCCESS = 1
         const val ERROR = 0
     }
 
+    /*
+     * Метод, сохраняющий документ в базу данных из заполненных
+     * информационных фрагментов
+     */
     fun saveDocument(fragments: Sequence<View>, name: String, context: Context, type: String): Int {
         val databaseDocumentHandler = DatabaseDocumentHandler(context)
         val products: ArrayList<ProductDataModel> = arrayListOf()
@@ -45,6 +55,9 @@ class DocumentLoader {
 
     }
 
+    /*
+     * Метод, возвращающий массив информационных фрагментов документа
+     */
     fun loadDocument(id: Int, context: Context): ArrayList<InfoFragment> {
         val fragments: ArrayList<InfoFragment> = arrayListOf()
         val documents = DatabaseDocumentHandler(context)
@@ -60,6 +73,9 @@ class DocumentLoader {
         return fragments
     }
 
+    /*
+     * Метод, заполняющий информационные фрагменты данными из документа
+     */
     fun loadData(document: DocumentDataModel, fragments: ArrayList<InfoFragment>) {
         document.product_list.forEachIndexed { index, product ->
             val fragment = fragments[index]

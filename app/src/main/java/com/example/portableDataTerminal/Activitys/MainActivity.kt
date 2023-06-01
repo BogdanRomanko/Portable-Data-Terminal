@@ -21,24 +21,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*
-         * Устанавливаем переменную binding для доступа к xml-представлению
-         * главной страницы
-         */
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
-         * Привязываем обработчики событий к определённым кнопкам главной страницы
-         */
         binding.buttonSync.setOnClickListener { sync() }
         binding.buttonInfo.setOnClickListener { info() }
         binding.buttonAcceptance.setOnClickListener { acceptance() }
         binding.buttonShipment.setOnClickListener { shipment() }
 
-        /*
-         * Очищаем заголовок главной страницы
-         */
         title = ""
     }
 

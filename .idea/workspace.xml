@@ -15,7 +15,15 @@
     <list default="true" id="28b508f4-b0c7-4e21-a0ff-aacb23f50867" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/AcceptanceActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/AcceptanceActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/InfoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/InfoActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/ShipmentActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/ShipmentActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/SyncActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Activitys/SyncActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/DatabaseHandlers/DatabaseDocumentHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/DatabaseHandlers/DatabaseDocumentHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/DatabaseHandlers/DatabaseProductHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/DatabaseHandlers/DatabaseProductHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/DatabaseHandlers/DatabaseUserHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/DatabaseHandlers/DatabaseUserHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Fragments/InfoFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Fragments/InfoFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Models/DocumentDataModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Models/DocumentDataModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Utilies/DocumentLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/portableDataTerminal/Utilies/DocumentLoader.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,6 +45,7 @@
         <option value="layoutResourceFile" />
         <option value="Kotlin Class" />
         <option value="resourceFile" />
+        <option value="Kotlin Interface" />
       </list>
     </option>
   </component>
@@ -55,17 +64,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
-    "last_opened_file_path": "G:/Portabledataterminal",
-    "settings.editor.selected.configurable": "memory.settings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Portabledataterminal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;memory.settings&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.example.portableDataTerminal.Utilies" />

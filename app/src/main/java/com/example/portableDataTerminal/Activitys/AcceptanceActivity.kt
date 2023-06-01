@@ -48,39 +48,48 @@ class AcceptanceActivity : AppCompatActivity() {
      */
     private lateinit var binding: ActivityAcceptanceBinding
 
-
+    /*
+     * Поле с представлением удаляемого фрагмента
+     */
     private lateinit var removeView: View
 
     /*
      * Обработчик события создания страницы
      */
+    @SuppressLint("AppCompatMethod")
     override fun onCreate(savedInstanceState: Bundle?) {
-        /*
-         * Устанавливаем переменную binding для доступа к
-         * xml-представлению страницы
-         */
         super.onCreate(savedInstanceState)
         binding = ActivityAcceptanceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
-         * Устанавливаем заголовок страницы
-         */
         title = "Приёмка товара"
 
-        /*
-         * Привязываем обработчики событий к кнопкам
-         */
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.addButton.setOnClickListener { addProduct() }
         binding.sendButton.setOnClickListener { sendData() }
     }
 
+    /*
+     * Обработчик возврата обратно
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    /*
+     * Обработчик события создания меню сохранения/загрузки документа
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.save_load_menu, menu)
         return true
     }
 
+    /*
+     * Обработчик нажатия элемента меню в меню сохранения/загрузки
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
 
@@ -125,10 +134,6 @@ class AcceptanceActivity : AppCompatActivity() {
     private fun addProduct() {
         binding.textView.text = ""
 
-        /*
-         * Создаём фрагмент с формой данных для новой записи в документе и
-         * добавляем в документ
-         */
         val infoFragment = InfoFragment()
         supportFragmentManager.beginTransaction().add(R.id.linearLayout, infoFragment).commitNow()
         getInfo()
@@ -150,24 +155,11 @@ class AcceptanceActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun getData(barcode: String) {
         try{
-            /*
-             * Создаём объект обработчика базы данных Products и ищем совпадение
-             * отсканированного штрих-кода с базой данных
-             */
             DatabaseProductHandler(this).viewProducts().forEach {
                 if (it.product_barcode == barcode){
-
-                    /*
-                     * Получаем уже созданные записи в документе и сверяем их для
-                     * проверки совпадения штрих-кода в уже созданных записях в
-                     * документе
-                     */
                     val childs: Sequence<View> = binding.linearLayout.children
+
                     childs.forEach() { child ->
-                        /*
-                         * Если находим совпадение - просто прибавляем 1 к уже
-                         * записанному количеству и выходим из метода
-                         */
                         if (child.findViewById<EditText>(R.id.editText_product_barcode).text.toString() == it.product_barcode){
                             val count =  child.findViewById<EditText>(R.id.editText_product_count).text.toString().toInt()
                             child.findViewById<EditText>(R.id.editText_product_count).setText((count +  1).toString())
@@ -175,9 +167,6 @@ class AcceptanceActivity : AppCompatActivity() {
                         }
                     }
 
-                    /*
-                     * Заполняем форму данными из таблицы
-                     */
                     val fragment = binding.linearLayout.getChildAt(binding.linearLayout.childCount-1)
                     fragment?.findViewById<EditText>(R.id.editText_product_barcode)?.setText(it.product_barcode)
                     fragment?.findViewById<EditText>(R.id.editText_product_name)?.setText(it.product_name)
@@ -249,6 +238,9 @@ class AcceptanceActivity : AppCompatActivity() {
         queue.add(request)
     }
 
+    /*
+     * Метод, конвертирующий данные из документа в JSON-формат
+     */
     private fun dataToJson(): JSONArray {
         val productHandler = DatabaseProductHandler(this)
         var result = "["
@@ -285,6 +277,9 @@ class AcceptanceActivity : AppCompatActivity() {
         }
     }
 
+    /*
+     * Контекстное меню для записей в документе для их удаления
+     */
     private fun popupMenu(view: View) {
         removeView = view
 
@@ -306,6 +301,9 @@ class AcceptanceActivity : AppCompatActivity() {
         popup.show()
     }
 
+    /*
+     * Контекстное меню для удаления документа из списка доступных
+     */
     private fun popupListViewItems(view: View, name: String, dialog: AlertDialog) {
         val popup = PopupMenu(this, view)
 
@@ -334,6 +332,9 @@ class AcceptanceActivity : AppCompatActivity() {
         popup.show()
     }
 
+    /*
+     * Диалоговое окно для удаления записи в документе
+     */
     private fun removeFragmentDialog() {
         val builder = AlertDialog.Builder(this)
 
@@ -350,6 +351,9 @@ class AcceptanceActivity : AppCompatActivity() {
         }
     }
 
+    /*
+     * Диалоговое окно для удаления документа из списка доступных
+     */
     private fun removeDocumentDialog(id: Int, alertDialog: AlertDialog) {
         val builder = AlertDialog.Builder(this)
 
@@ -368,6 +372,9 @@ class AcceptanceActivity : AppCompatActivity() {
         }
     }
 
+    /*
+     * Диалоговое окно с ошибкой при отправке документа на сервер
+     */
     private fun errorDialog() {
         val builder = AlertDialog.Builder(this)
 
@@ -381,6 +388,9 @@ class AcceptanceActivity : AppCompatActivity() {
         }
     }
 
+    /*
+     * Диалоговое окно для сохранения документа
+     */
     private fun saveDialog(editText: EditText) {
         val builder = AlertDialog.Builder(this)
 
@@ -410,6 +420,9 @@ class AcceptanceActivity : AppCompatActivity() {
         }
     }
 
+    /*
+     * Диалоговое окно для загрузки документа из списка доступных
+     */
     private fun loadDialog(documents: List<DocumentDataModel>) {
         val builder = AlertDialog.Builder(this)
         val items: ArrayList<String> = arrayListOf()

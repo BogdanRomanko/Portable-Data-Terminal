@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.portableDataTerminal.Models.UserDataModel
 
 /*
- * Класс, содержащий в себе методы для работы с базой данной пользователей
+ * Класс для работы с базой данных пользователей
  */
 class DatabaseUserHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 

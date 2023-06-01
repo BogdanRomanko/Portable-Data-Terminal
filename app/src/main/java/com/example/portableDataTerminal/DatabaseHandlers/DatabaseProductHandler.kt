@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.portableDataTerminal.Models.ProductDataModel
 
 /*
- * Класс, содержащий в себе методы для работы с базой данной продуктов
+ * Класс для работы с базой данных продуктов
  */
 class DatabaseProductHandler(context: Context):  SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -122,6 +122,9 @@ class DatabaseProductHandler(context: Context):  SQLiteOpenHelper(context, DATAB
         return product_list
     }
 
+    /*
+     * Метод, отдающий продукт из базы данных по id
+     */
     fun getProduct(barcode: String): ProductDataModel {
         viewProducts().forEach {
             if (barcode == it.product_barcode)

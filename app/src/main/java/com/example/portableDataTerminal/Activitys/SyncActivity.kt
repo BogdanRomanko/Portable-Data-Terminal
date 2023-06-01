@@ -31,7 +31,7 @@ class SyncActivity : AppCompatActivity() {
 
     /*
      * Поля класса, отвечающие за доступ к xml-представлению
-     * страницы (binding) и временный массив для данных с сервера (products)
+     * страницы и временный массив для данных с сервера
      */
     private lateinit var binding: ActivitySyncBinding
     private var products: Array<Products> = arrayOf()
@@ -40,23 +40,23 @@ class SyncActivity : AppCompatActivity() {
      * Обработчик события создания страницы
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        /*
-         * Устанавливаем переменную binding для доступа к
-         * xml-представлению
-         */
         super.onCreate(savedInstanceState)
         binding = ActivitySyncBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
-         * Устанавливаем заголовок страницы
-         */
         title = "Синхронизация с сервером"
 
-        /*
-         * Привязываем обработчики событий к кнопкам
-         */
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.buttonAcceptance.setOnClickListener { sync() }
+    }
+
+    /*
+     * Обработчик нажатия кнопки возврата
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     /*
@@ -99,7 +99,6 @@ class SyncActivity : AppCompatActivity() {
      * Метод, посылающий веб-серверу get-запрос на получение
      * данных о товарах
      */
-    @OptIn(DelicateCoroutinesApi::class)
     private fun getData() {
         val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
 
@@ -157,10 +156,6 @@ class SyncActivity : AppCompatActivity() {
     private fun saveData(products: Array<Products>){
         Toast.makeText(this, "Обновление базы данных", Toast.LENGTH_LONG).show()
 
-        /*
-         * Создаём объект обработчика базы данных Products
-         * и записываем данные
-         */
         val productDbHandler = DatabaseProductHandler(this)
         productDbHandler.onUpgrade(productDbHandler.writableDatabase, 3, 3)
 
