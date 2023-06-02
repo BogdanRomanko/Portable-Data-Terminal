@@ -34,21 +34,21 @@ public final class ActivitySyncBinding implements ViewBinding {
   public final EditText editTextPassword;
 
   @NonNull
-  public final ConstraintLayout mainLayout;
+  public final ConstraintLayout syncLayout;
 
   @NonNull
   public final TextView textView;
 
   private ActivitySyncBinding(@NonNull ConstraintLayout rootView, @NonNull Button buttonAcceptance,
       @NonNull EditText editTextIP, @NonNull EditText editTextName,
-      @NonNull EditText editTextPassword, @NonNull ConstraintLayout mainLayout,
+      @NonNull EditText editTextPassword, @NonNull ConstraintLayout syncLayout,
       @NonNull TextView textView) {
     this.rootView = rootView;
     this.buttonAcceptance = buttonAcceptance;
     this.editTextIP = editTextIP;
     this.editTextName = editTextName;
     this.editTextPassword = editTextPassword;
-    this.mainLayout = mainLayout;
+    this.syncLayout = syncLayout;
     this.textView = textView;
   }
 
@@ -103,7 +103,7 @@ public final class ActivitySyncBinding implements ViewBinding {
         break missingId;
       }
 
-      ConstraintLayout mainLayout = (ConstraintLayout) rootView;
+      ConstraintLayout syncLayout = (ConstraintLayout) rootView;
 
       id = R.id.textView;
       TextView textView = ViewBindings.findChildViewById(rootView, id);
@@ -112,7 +112,7 @@ public final class ActivitySyncBinding implements ViewBinding {
       }
 
       return new ActivitySyncBinding((ConstraintLayout) rootView, buttonAcceptance, editTextIP,
-          editTextName, editTextPassword, mainLayout, textView);
+          editTextName, editTextPassword, syncLayout, textView);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

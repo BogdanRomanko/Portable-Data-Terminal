@@ -24,4 +24,7 @@
     <string name="add_button">Добавить</string>
     <string name="data_update">Обновление данных</string>
     <string name="remove_fragment">Удалить фрагмент</string>
+    <string name="acceptance_product">Приёмка товара</string>
+    <string name="shipment_product">Отгрузка товара</string>
+    <string name="movement_product">Перемещение товара</string>
 </resources>

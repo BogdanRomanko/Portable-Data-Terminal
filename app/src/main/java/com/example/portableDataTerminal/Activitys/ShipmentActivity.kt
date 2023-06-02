@@ -29,6 +29,7 @@ import com.example.portableDataTerminal.Models.DocumentDataModel
 import com.example.portableDataTerminal.Models.UserDataModel
 import com.example.portableDataTerminal.R
 import com.example.portableDataTerminal.Utilies.DocumentLoader
+import com.example.portableDataTerminal.Utilies.ServerHelper
 import com.example.portableDataTerminal.databinding.ActivityShipmentBinding
 import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanOptions
@@ -39,18 +40,12 @@ import org.json.JSONArray
  * Класс, содержащий в себе обработку страницы с формированием
  * документе о отгрузке товара
  */
-class ShipmentActivity : AppCompatActivity() {
+class ShipmentActivity: AppCompatActivity() {
 
-    /*
-     * Поле с переменной для доступа к xml-представлению страницы с
-     * формированием документа о отгрузке товара
-     */
+
     private lateinit var binding: ActivityShipmentBinding
-
-    /*
-     * Поле с представлением удаляемого фрагмента
-     */
     private lateinit var removeView: View
+    private var type = "shipment"
 
     /*
      * Обработчик события создания страницы
@@ -192,52 +187,13 @@ class ShipmentActivity : AppCompatActivity() {
      * Метод, отправляющий документ на веб-сервер
      */
     private fun sendData() {
-        val json = "{\"type\" : \"shipment\", \"products\": " + dataToJson().toString() + "}"
+        val json = "{\"type\" : \"$type\", \"products\": " + dataToJson().toString() + "}"
         val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
-        val url = "http://" + users[0].ip + "/barcodes/hs/products/send_data"
-        val queue = Volley.newRequestQueue(this)
 
-        val request = object : StringRequest(
-            Method.POST,
-            url,
-            { _ ->
-            },
-            { _ ->
-                errorDialog()
-            })
-        {
-            /*
-             * Устанавливаем header запроса для авторизации
-             * на стороне веб-сервера
-             */
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun getHeaders(): MutableMap<String, String> {
-                val cred = Credentials.basic(users[0].user_name, users[0].user_password, Charsets.UTF_8)
-                val headers = HashMap<String, String>()
-                headers["Authorization"] = cred
-                return headers
-            }
+        val result = ServerHelper(users[0].user_name, users[0].user_password, users[0].ip).sendData(json, this)
 
-            override fun getBody(): ByteArray {
-                return json.toByteArray()
-            }
-        }
-
-        request.retryPolicy = object : RetryPolicy {
-            override fun getCurrentTimeout(): Int {
-                return 30000
-            }
-
-            override fun getCurrentRetryCount(): Int {
-                return 30000
-            }
-
-            @Throws(VolleyError::class)
-            override fun retry(error: VolleyError) {
-            }
-        }
-
-        queue.add(request)
+        if (result == 1)
+            errorDialog()
     }
 
     /*
@@ -317,7 +273,7 @@ class ShipmentActivity : AppCompatActivity() {
                     var id = 0
 
                     DatabaseDocumentHandler(this).viewDocuments().forEach {
-                        if (it.name == name && it.document_type == "shipment") {
+                        if (it.name == name && it.document_type == type) {
                             id = it.id?.toInt()!!
                             return@forEach
                         }
@@ -406,7 +362,7 @@ class ShipmentActivity : AppCompatActivity() {
                     binding.linearLayout.children,
                     editText.text.toString(),
                     context,
-                    "shipment"
+                    type
                 )
 
                 if (result == DocumentLoader.SUCCESS)
@@ -429,7 +385,7 @@ class ShipmentActivity : AppCompatActivity() {
         val items: ArrayList<String> = arrayListOf()
 
         documents.forEachIndexed { index, document ->
-            if (document.document_type == "shipment")
+            if (document.document_type == type)
                 items.add(document.name.toString())
         }
 

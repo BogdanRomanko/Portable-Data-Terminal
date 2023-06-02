@@ -2838,7 +2838,9 @@ id SHOW_PROGRESS
 id SYM
 id TOP_END
 id TOP_START
+id about_btn
 id accelerate
+id acceptance_btn
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
 id accessibility_custom_action_1
@@ -2925,9 +2927,6 @@ id bounceEnd
 id bounceStart
 id buttonPanel
 id button_acceptance
-id button_info
-id button_shipment
-id button_sync
 id cache_measures
 id callMeasure
 id cancel_button
@@ -2942,6 +2941,7 @@ id chain2
 id chains
 id checkbox
 id checked
+id choosing_doc_type_btn
 id chronometer
 id circle_center
 id clear_text
@@ -3059,6 +3059,7 @@ id immediateStop
 id included
 id indeterminate
 id info
+id info_btn
 id info_label
 id invisible
 id inward
@@ -3115,6 +3116,7 @@ id month_navigation_next
 id month_navigation_previous
 id month_title
 id motion_base
+id movement_btn
 id mtrl_anchor_parent
 id mtrl_calendar_day_selector_frame
 id mtrl_calendar_days_of_week
@@ -3233,6 +3235,7 @@ id selection_type
 id send_button
 id sharedValueSet
 id sharedValueUnset
+id shipment_btn
 id shortcut
 id showCustom
 id showHome
@@ -3269,6 +3272,8 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
+id sync_btn
+id sync_layout
 id tabMode
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans
@@ -3459,8 +3464,10 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_acceptance
+layout activity_choosing_doc_type
 layout activity_info
 layout activity_main
+layout activity_movement
 layout activity_shipment
 layout activity_sync
 layout custom_dialog
@@ -3578,6 +3585,7 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string acceptance_description
+string acceptance_product
 string add_button
 string androidx_startup
 string app_name
@@ -3651,6 +3659,7 @@ string material_timepicker_minute
 string material_timepicker_pm
 string material_timepicker_select_time
 string material_timepicker_text_input_mode_description
+string movement_product
 string mtrl_badge_numberless_content_description
 string mtrl_checkbox_button_icon_path_checked
 string mtrl_checkbox_button_icon_path_group_name
@@ -3728,6 +3737,7 @@ string searchview_navigation_content_description
 string send_button
 string shipment
 string shipment_description
+string shipment_product
 string side_sheet_accessibility_pane_title
 string side_sheet_behavior
 string status_bar_notification_info_overflow

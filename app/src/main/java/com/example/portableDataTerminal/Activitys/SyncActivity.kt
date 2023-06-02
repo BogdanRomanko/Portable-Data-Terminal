@@ -3,6 +3,7 @@ package com.example.portableDataTerminal.Activitys
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.example.portableDataTerminal.DatabaseHandlers.DatabaseUserHandler
 import com.example.portableDataTerminal.Models.ProductDataModel
 import com.example.portableDataTerminal.Models.UserDataModel
 import com.example.portableDataTerminal.Utilies.Products
+import com.example.portableDataTerminal.Utilies.ServerHelper
 import com.example.portableDataTerminal.databinding.ActivitySyncBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -74,23 +76,14 @@ class SyncActivity : AppCompatActivity() {
         if (name != "" && ip != "") {
             val status = userDbHandler.addUser(UserDataModel(1, ip, name, password))
             if (status > -1) {
-                Toast.makeText(
-                    applicationContext,
-                    "Данные записаны",
-                    Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Данные записаны", Toast.LENGTH_LONG).show()
                 /*binding.editTextIP.text.clear()
                 binding.editTextName.text.clear()
                 binding.editTextPassword.text.clear()*/
             } else
-                Toast.makeText(
-                    applicationContext,
-                    "Неправильно заполнены данные! Проверьте ещё раз",
-                    Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Неправильно заполнены данные! Проверьте ещё раз", Toast.LENGTH_LONG).show()
         } else
-            Toast.makeText(
-                applicationContext,
-                "Неправильно заполнены данные! Проверьте ещё раз",
-                Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Неправильно заполнены данные! Проверьте ещё раз", Toast.LENGTH_LONG).show()
 
         getData()
     }
@@ -102,48 +95,8 @@ class SyncActivity : AppCompatActivity() {
     private fun getData() {
         val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
 
-        val url = "http://" + users[0].ip + "/barcodes/hs/products/get_all_products"
-        val queue = Volley.newRequestQueue(this)
-
-        val request = object : StringRequest(
-            Method.GET,
-            url,
-            { result ->
-                val dataArray = object : TypeToken<Array<Products>>() {}.type
-                products = Gson().fromJson(result, dataArray)
-            },
-            { error ->
-                Log.d("ERROR", "Error: $error")
-            }) {
-            /*
-             * Устанавливаем header запроса для авторизации
-             * на стороне веб-сервера
-             */
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun getHeaders(): MutableMap<String, String> {
-                val cred = Credentials.basic(users[0].user_name, users[0].user_password, Charsets.UTF_8)
-                val headers = HashMap<String, String>()
-                headers["Authorization"] = cred
-                return headers
-                //0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YAgKNCk0LXQtNC+0YDQvtCy0JHQnCk6
-            }
-        }
-
-        request.retryPolicy = object : RetryPolicy {
-            override fun getCurrentTimeout(): Int {
-                return 30000
-            }
-
-            override fun getCurrentRetryCount(): Int {
-                return 30000
-            }
-
-            @Throws(VolleyError::class)
-            override fun retry(error: VolleyError) {
-            }
-        }
-
-        queue.add(request)
+        val result = ServerHelper(users[0].user_name, users[0].user_password, users[0].ip).getData(this)
+        products = Gson().fromJson(result, object : TypeToken<Array<Products>>() {}.type)
 
         if (products.isNotEmpty())
             saveData(products)

@@ -21,32 +21,32 @@ public final class ActivityMainBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
-  public final Button buttonAcceptance;
+  public final Button aboutBtn;
 
   @NonNull
-  public final Button buttonInfo;
+  public final Button choosingDocTypeBtn;
 
   @NonNull
-  public final Button buttonShipment;
-
-  @NonNull
-  public final Button buttonSync;
+  public final Button infoBtn;
 
   @NonNull
   public final ConstraintLayout mainLayout;
 
   @NonNull
+  public final Button syncBtn;
+
+  @NonNull
   public final TextView textView;
 
-  private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull Button buttonAcceptance,
-      @NonNull Button buttonInfo, @NonNull Button buttonShipment, @NonNull Button buttonSync,
-      @NonNull ConstraintLayout mainLayout, @NonNull TextView textView) {
+  private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull Button aboutBtn,
+      @NonNull Button choosingDocTypeBtn, @NonNull Button infoBtn,
+      @NonNull ConstraintLayout mainLayout, @NonNull Button syncBtn, @NonNull TextView textView) {
     this.rootView = rootView;
-    this.buttonAcceptance = buttonAcceptance;
-    this.buttonInfo = buttonInfo;
-    this.buttonShipment = buttonShipment;
-    this.buttonSync = buttonSync;
+    this.aboutBtn = aboutBtn;
+    this.choosingDocTypeBtn = choosingDocTypeBtn;
+    this.infoBtn = infoBtn;
     this.mainLayout = mainLayout;
+    this.syncBtn = syncBtn;
     this.textView = textView;
   }
 
@@ -77,31 +77,31 @@ public final class ActivityMainBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.button_acceptance;
-      Button buttonAcceptance = ViewBindings.findChildViewById(rootView, id);
-      if (buttonAcceptance == null) {
+      id = R.id.about_btn;
+      Button aboutBtn = ViewBindings.findChildViewById(rootView, id);
+      if (aboutBtn == null) {
         break missingId;
       }
 
-      id = R.id.button_info;
-      Button buttonInfo = ViewBindings.findChildViewById(rootView, id);
-      if (buttonInfo == null) {
+      id = R.id.choosing_doc_type_btn;
+      Button choosingDocTypeBtn = ViewBindings.findChildViewById(rootView, id);
+      if (choosingDocTypeBtn == null) {
         break missingId;
       }
 
-      id = R.id.button_shipment;
-      Button buttonShipment = ViewBindings.findChildViewById(rootView, id);
-      if (buttonShipment == null) {
-        break missingId;
-      }
-
-      id = R.id.button_sync;
-      Button buttonSync = ViewBindings.findChildViewById(rootView, id);
-      if (buttonSync == null) {
+      id = R.id.info_btn;
+      Button infoBtn = ViewBindings.findChildViewById(rootView, id);
+      if (infoBtn == null) {
         break missingId;
       }
 
       ConstraintLayout mainLayout = (ConstraintLayout) rootView;
+
+      id = R.id.sync_btn;
+      Button syncBtn = ViewBindings.findChildViewById(rootView, id);
+      if (syncBtn == null) {
+        break missingId;
+      }
 
       id = R.id.textView;
       TextView textView = ViewBindings.findChildViewById(rootView, id);
@@ -109,8 +109,8 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((ConstraintLayout) rootView, buttonAcceptance, buttonInfo,
-          buttonShipment, buttonSync, mainLayout, textView);
+      return new ActivityMainBinding((ConstraintLayout) rootView, aboutBtn, choosingDocTypeBtn,
+          infoBtn, mainLayout, syncBtn, textView);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

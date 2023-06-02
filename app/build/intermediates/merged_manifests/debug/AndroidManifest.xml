@@ -50,6 +50,9 @@
         android:theme="@style/Theme.PortableDataTerminal"
         android:usesCleartextTraffic="true" >
         <activity
+            android:name="com.example.portableDataTerminal.Activitys.MovementActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.portableDataTerminal.Activitys.ShipmentActivity"
             android:exported="false" />
         <activity
@@ -60,6 +63,9 @@
             android:exported="false" />
         <activity
             android:name="com.example.portableDataTerminal.Activitys.SyncActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.portableDataTerminal.Activitys.ChoosingDocumentTypeActivity"
             android:exported="false" />
         <activity
             android:name="com.example.portableDataTerminal.Activitys.MainActivity"

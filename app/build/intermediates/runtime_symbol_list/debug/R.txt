@@ -2837,7 +2837,9 @@ int id SHOW_PROGRESS 0x7f09000a
 int id SYM 0x7f09000b
 int id TOP_END 0x7f09000c
 int id TOP_START 0x7f09000d
+int id about_btn 0x7f090210
 int id accelerate 0x7f09000e
+int id acceptance_btn 0x7f090211
 int id accessibility_action_clickable_span 0x7f09000f
 int id accessibility_custom_action_0 0x7f090010
 int id accessibility_custom_action_1 0x7f090011
@@ -2924,9 +2926,6 @@ int id bounceEnd 0x7f090061
 int id bounceStart 0x7f090062
 int id buttonPanel 0x7f090063
 int id button_acceptance 0x7f090064
-int id button_info 0x7f090065
-int id button_shipment 0x7f090066
-int id button_sync 0x7f090067
 int id cache_measures 0x7f090068
 int id callMeasure 0x7f090069
 int id cancel_button 0x7f09006a
@@ -2941,6 +2940,7 @@ int id chain2 0x7f090072
 int id chains 0x7f090073
 int id checkbox 0x7f090074
 int id checked 0x7f090075
+int id choosing_doc_type_btn 0x7f090212
 int id chronometer 0x7f090076
 int id circle_center 0x7f090077
 int id clear_text 0x7f090078
@@ -3058,6 +3058,7 @@ int id immediateStop 0x7f0900e7
 int id included 0x7f0900e8
 int id indeterminate 0x7f0900e9
 int id info 0x7f0900ea
+int id info_btn 0x7f090214
 int id info_label 0x7f09020b
 int id invisible 0x7f0900eb
 int id inward 0x7f0900ec
@@ -3114,6 +3115,7 @@ int id month_navigation_next 0x7f09011d
 int id month_navigation_previous 0x7f09011e
 int id month_title 0x7f09011f
 int id motion_base 0x7f090120
+int id movement_btn 0x7f090215
 int id mtrl_anchor_parent 0x7f090121
 int id mtrl_calendar_day_selector_frame 0x7f090122
 int id mtrl_calendar_days_of_week 0x7f090123
@@ -3232,6 +3234,7 @@ int id selection_type 0x7f090190
 int id send_button 0x7f090191
 int id sharedValueSet 0x7f090192
 int id sharedValueUnset 0x7f090193
+int id shipment_btn 0x7f090216
 int id shortcut 0x7f090194
 int id showCustom 0x7f090195
 int id showHome 0x7f090196
@@ -3268,6 +3271,8 @@ int id stretch 0x7f0901b4
 int id submenuarrow 0x7f0901b5
 int id submit_area 0x7f0901b6
 int id supportScrollUp 0x7f0901b7
+int id sync_btn 0x7f090217
+int id sync_layout 0x7f090218
 int id tabMode 0x7f0901b8
 int id tag_accessibility_actions 0x7f0901b9
 int id tag_accessibility_clickable_spans 0x7f0901ba
@@ -3458,8 +3463,10 @@ int layout abc_search_view 0x7f0c0019
 int layout abc_select_dialog_material 0x7f0c001a
 int layout abc_tooltip 0x7f0c001b
 int layout activity_acceptance 0x7f0c001c
+int layout activity_choosing_doc_type 0x7f0c0071
 int layout activity_info 0x7f0c001d
 int layout activity_main 0x7f0c001e
+int layout activity_movement 0x7f0c0072
 int layout activity_shipment 0x7f0c001f
 int layout activity_sync 0x7f0c0020
 int layout custom_dialog 0x7f0c0021
@@ -3577,6 +3584,7 @@ int string abc_shareactionprovider_share_with 0x7f110018
 int string abc_shareactionprovider_share_with_application 0x7f110019
 int string abc_toolbar_collapse_description 0x7f11001a
 int string acceptance_description 0x7f11001b
+int string acceptance_product 0x7f1100be
 int string add_button 0x7f11001c
 int string androidx_startup 0x7f11001d
 int string app_name 0x7f11001e
@@ -3650,6 +3658,7 @@ int string material_timepicker_minute 0x7f110061
 int string material_timepicker_pm 0x7f110062
 int string material_timepicker_select_time 0x7f110063
 int string material_timepicker_text_input_mode_description 0x7f110064
+int string movement_product 0x7f1100bf
 int string mtrl_badge_numberless_content_description 0x7f110065
 int string mtrl_checkbox_button_icon_path_checked 0x7f110066
 int string mtrl_checkbox_button_icon_path_group_name 0x7f110067
@@ -3727,6 +3736,7 @@ int string searchview_navigation_content_description 0x7f1100ad
 int string send_button 0x7f1100ae
 int string shipment 0x7f1100af
 int string shipment_description 0x7f1100b0
+int string shipment_product 0x7f1100c0
 int string side_sheet_accessibility_pane_title 0x7f1100b1
 int string side_sheet_behavior 0x7f1100b2
 int string status_bar_notification_info_overflow 0x7f1100b3

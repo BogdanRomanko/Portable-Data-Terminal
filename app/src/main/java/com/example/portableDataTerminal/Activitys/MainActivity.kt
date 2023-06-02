@@ -24,43 +24,38 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonSync.setOnClickListener { sync() }
-        binding.buttonInfo.setOnClickListener { info() }
-        binding.buttonAcceptance.setOnClickListener { acceptance() }
-        binding.buttonShipment.setOnClickListener { shipment() }
+        binding.syncBtn.setOnClickListener { sync() }
+        binding.infoBtn.setOnClickListener { info() }
+        binding.choosingDocTypeBtn.setOnClickListener { chooseDocumentType() }
 
         title = ""
     }
 
     /*
-     * Обработчик кнопки для вызова страницы с синхронизацией
-     * с веб-сервером
+     * Обработчик вызова страницы с синхронизацией с веб-сервером
      */
     private fun sync() {
         startActivity(Intent(this, SyncActivity::class.java))
     }
 
     /*
-     * Обработчик кнопки для вызова страницы с получением информации
-     * о товаре
+     * Обработчик вызова страницы с получением информации о товаре
      */
     private fun info() {
         startActivity(Intent(this, InfoActivity::class.java))
     }
 
     /*
-     * Обработчик кнопки для вызова страницы с созданием отчёта
-     * приёмки товара
+     * Обработчик вызова страницы с выбором типа документа
      */
-    private fun acceptance() {
-        startActivity(Intent(this, AcceptanceActivity::class.java))
+    private fun chooseDocumentType() {
+        startActivity(Intent(this, ChoosingDocumentTypeActivity::class.java))
     }
 
     /*
-     * Обработчик кнопки для вызова страницы с созданием отчёта
-     * отгрузки товара
+     * Обработчик вызова страницы о программе
      */
-    private fun shipment() {
-        startActivity(Intent(this, ShipmentActivity::class.java))
+    private fun about() {
+
     }
 }

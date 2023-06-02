@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Activitys.MovementActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activitys.ShipmentActivity"
             android:exported="false" />
         <activity
@@ -26,6 +29,9 @@
             android:exported="false" />
         <activity
             android:name=".Activitys.SyncActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activitys.ChoosingDocumentTypeActivity"
             android:exported="false" />
         <activity
             android:name=".Activitys.MainActivity"

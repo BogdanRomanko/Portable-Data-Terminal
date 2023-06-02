@@ -6,21 +6,18 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.PopupMenu
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import com.android.volley.RetryPolicy
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import androidx.core.view.marginLeft
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseDocumentHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseUserHandler
@@ -29,29 +26,22 @@ import com.example.portableDataTerminal.Models.DocumentDataModel
 import com.example.portableDataTerminal.Models.UserDataModel
 import com.example.portableDataTerminal.R
 import com.example.portableDataTerminal.Utilies.DocumentLoader
+import com.example.portableDataTerminal.Utilies.ServerHelper
 import com.example.portableDataTerminal.databinding.ActivityAcceptanceBinding
 import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanOptions
 import okhttp3.Credentials
 import org.json.JSONArray
 
-
 /*
  * Класс, содержащий в себе обработку страницы с формированием
  * документа о приёмке товара
  */
-class AcceptanceActivity : AppCompatActivity() {
+class AcceptanceActivity: AppCompatActivity() {
 
-    /*
-     * Поле с переменной для доступа к xml-представлению страницы с
-     * формированием документа о приёмке товара
-     */
     private lateinit var binding: ActivityAcceptanceBinding
-
-    /*
-     * Поле с представлением удаляемого фрагмента
-     */
     private lateinit var removeView: View
+    private var type = "acceptance"
 
     /*
      * Обработчик события создания страницы
@@ -188,54 +178,16 @@ class AcceptanceActivity : AppCompatActivity() {
     /*
      * Метод, отправляющий документ на веб-сервер
      */
+
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun sendData() {
-        val json = "{\"type\" : \"acceptance\", \"products\": " + dataToJson().toString() + "}"
+        val json = "{\"type\" : \"$type\", \"products\": " + dataToJson().toString() + "}"
         val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
-        val url = "http://" + users[0].ip + "/barcodes/hs/products/send_data"
-        val queue = Volley.newRequestQueue(this)
 
-        val request = object : StringRequest(
-            Method.POST,
-            url,
-            { result ->
-                Log.d("RESULT", result.toString())
-            },
-            { error ->
-                errorDialog()
-            })
-        {
-            /*
-             * Устанавливаем header запроса для авторизации
-             * на стороне веб-сервера
-             */
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun getHeaders(): MutableMap<String, String> {
-                val cred = Credentials.basic(users[0].user_name, users[0].user_password, Charsets.UTF_8)
-                val headers = HashMap<String, String>()
-                headers["Authorization"] = cred
-                return headers
-            }
+        val result = ServerHelper(users[0].user_name, users[0].user_password, users[0].ip).sendData(json, this)
 
-            override fun getBody(): ByteArray {
-                return json.toByteArray()
-            }
-        }
-
-        request.retryPolicy = object : RetryPolicy {
-            override fun getCurrentTimeout(): Int {
-                return 30000
-            }
-
-            override fun getCurrentRetryCount(): Int {
-                return 30000
-            }
-
-            @Throws(VolleyError::class)
-            override fun retry(error: VolleyError) {
-            }
-        }
-
-        queue.add(request)
+        if (result == 1)
+            errorDialog()
     }
 
     /*
@@ -316,7 +268,7 @@ class AcceptanceActivity : AppCompatActivity() {
                     var id = 0
 
                     DatabaseDocumentHandler(this).viewDocuments().forEach {
-                        if (it.name == name && it.document_type == "acceptance") {
+                        if (it.name == name && it.document_type == type) {
                             id = it.id?.toInt()!!
                             return@forEach
                         }
@@ -428,7 +380,7 @@ class AcceptanceActivity : AppCompatActivity() {
         val items: ArrayList<String> = arrayListOf()
 
         documents.forEachIndexed { index, document ->
-            if (document.document_type == "acceptance")
+            if (document.document_type == type)
                 items.add(document.name.toString())
         }
 
