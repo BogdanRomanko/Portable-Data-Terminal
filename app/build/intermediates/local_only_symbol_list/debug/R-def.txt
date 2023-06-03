@@ -32,6 +32,7 @@ id load_menu
 id main_layout
 id movement_btn
 id name_editText
+id password_editText
 id remove_document
 id remove_item
 id save_menu

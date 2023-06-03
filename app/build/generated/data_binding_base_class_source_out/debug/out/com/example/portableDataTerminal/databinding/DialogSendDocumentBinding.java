@@ -23,12 +23,16 @@ public final class DialogSendDocumentBinding implements ViewBinding {
   public final EditText nameEditText;
 
   @NonNull
+  public final EditText passwordEditText;
+
+  @NonNull
   public final EditText storeEditText;
 
   private DialogSendDocumentBinding(@NonNull LinearLayout rootView, @NonNull EditText nameEditText,
-      @NonNull EditText storeEditText) {
+      @NonNull EditText passwordEditText, @NonNull EditText storeEditText) {
     this.rootView = rootView;
     this.nameEditText = nameEditText;
+    this.passwordEditText = passwordEditText;
     this.storeEditText = storeEditText;
   }
 
@@ -65,13 +69,20 @@ public final class DialogSendDocumentBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.password_editText;
+      EditText passwordEditText = ViewBindings.findChildViewById(rootView, id);
+      if (passwordEditText == null) {
+        break missingId;
+      }
+
       id = R.id.store_editText;
       EditText storeEditText = ViewBindings.findChildViewById(rootView, id);
       if (storeEditText == null) {
         break missingId;
       }
 
-      return new DialogSendDocumentBinding((LinearLayout) rootView, nameEditText, storeEditText);
+      return new DialogSendDocumentBinding((LinearLayout) rootView, nameEditText, passwordEditText,
+          storeEditText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

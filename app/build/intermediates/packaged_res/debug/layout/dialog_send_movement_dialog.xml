@@ -22,4 +22,10 @@
         android:layout_height="wrap_content"
         android:hint="На какой склад перемещение"/>
 
+    <EditText
+        android:id="@+id/password_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите пароль"/>
+
 </LinearLayout>

@@ -4,20 +4,13 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.PopupMenu
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.annotation.RequiresApi
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.core.view.marginLeft
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseDocumentHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseUserHandler
@@ -30,11 +23,10 @@ import com.example.portableDataTerminal.Utilies.ServerHelper
 import com.example.portableDataTerminal.databinding.ActivityAcceptanceBinding
 import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanOptions
-import okhttp3.Credentials
 import org.json.JSONArray
+import org.mindrot.jbcrypt.BCrypt
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 /*
  * Класс, содержащий в себе обработку страницы с формированием
@@ -89,15 +81,9 @@ class AcceptanceActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
 
-        when (item.itemId)
-        {
-            R.id.save_menu  -> run {
-                saveDialog(EditText(this))
-            }
-            R.id.load_menu  ->
-            {
-                loadDialog(DatabaseDocumentHandler(this).viewDocuments())
-            }
+        when (item.itemId) {
+            R.id.save_menu  -> saveDialog(EditText(this))
+            R.id.load_menu  -> loadDialog(DatabaseDocumentHandler(this).viewDocuments())
         }
 
         return super.onOptionsItemSelected(item)
@@ -111,10 +97,9 @@ class AcceptanceActivity: AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
-        if(result != null) {
-            if (result.contents == null) {
+        if (result != null) {
+            if (result.contents == null)
                 Toast.makeText(this, "Отменён", Toast.LENGTH_LONG).show()
-            }
             else
                 getData(result.contents)
         } else
@@ -130,8 +115,7 @@ class AcceptanceActivity: AppCompatActivity() {
     private fun addProduct() {
         binding.textView.text = ""
 
-        val infoFragment = InfoFragment()
-        supportFragmentManager.beginTransaction().add(R.id.linearLayout, infoFragment).commitNow()
+        supportFragmentManager.beginTransaction().add(R.id.linearLayout, InfoFragment()).commitNow()
         getInfo()
     }
 
@@ -153,9 +137,7 @@ class AcceptanceActivity: AppCompatActivity() {
         try{
             DatabaseProductHandler(this).viewProducts().forEach {
                 if (it.product_barcode == barcode){
-                    val childs: Sequence<View> = binding.linearLayout.children
-
-                    childs.forEach() { child ->
+                    binding.linearLayout.children.forEach() { child ->
                         if (child.findViewById<EditText>(R.id.editText_product_barcode).text.toString() == it.product_barcode){
                             val count =  child.findViewById<EditText>(R.id.editText_product_count).text.toString().toInt()
                             child.findViewById<EditText>(R.id.editText_product_count).setText((count +  1).toString())
@@ -185,7 +167,7 @@ class AcceptanceActivity: AppCompatActivity() {
      * Метод, отправляющий документ на веб-сервер
      */
     @SuppressLint("SimpleDateFormat")
-    private fun sendData() {
+    private fun sendData(password: String) {
         val json = "{\"type\" : \"$type\", " +
                 "\"store\" : \"$store\", " +
                 "\"name\" : \"$name\", " +
@@ -193,7 +175,10 @@ class AcceptanceActivity: AppCompatActivity() {
                 "\"products\": ${dataToJson()} }"
         val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
 
-        val result = ServerHelper(users[0].user_name, users[0].user_password, users[0].ip).sendData(json, this)
+        var result = 0
+
+        if (BCrypt.checkpw(users[0].user_password, password))
+            result = ServerHelper(users[0].user_name, password, users[0].ip).sendData(json, this)
 
         if (result == 1)
             errorDialog()
@@ -231,8 +216,7 @@ class AcceptanceActivity: AppCompatActivity() {
      * Метод, очищающий пустые записи в документе
      */
     private fun removeEmpty() {
-        val childs: Sequence<View> = binding.linearLayout.children
-        childs.forEach() { child ->
+        binding.linearLayout.children.forEach() { child ->
             if (child.findViewById<EditText>(R.id.editText_product_barcode).text.toString() == "")
                 binding.linearLayout.removeView(child)
         }
@@ -247,13 +231,10 @@ class AcceptanceActivity: AppCompatActivity() {
         val popup = PopupMenu(this, view)
         popup.inflate(R.menu.remove_info_menu)
 
-        popup.setOnMenuItemClickListener {
-                item: MenuItem? ->
+        popup.setOnMenuItemClickListener { item: MenuItem? ->
 
             when (item!!.itemId) {
-                R.id.remove_item -> {
-                    removeFragmentDialog()
-                }
+                R.id.remove_item -> removeFragmentDialog()
             }
 
             true
@@ -297,7 +278,9 @@ class AcceptanceActivity: AppCompatActivity() {
      * Диалоговое окно для удаления записи в документе
      */
     private fun removeFragmentDialog() {
-        with(AlertDialog.Builder(this))
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
         {
             setTitle("Удаление фрагмента")
             setMessage("Удалить фрагмент?")
@@ -306,15 +289,21 @@ class AcceptanceActivity: AppCompatActivity() {
             }
             setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
             }
-            show()
         }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(R.style.Theme_PortableDataTerminal)
     }
 
     /*
      * Диалоговое окно для удаления документа из списка доступных
      */
     private fun removeDocumentDialog(id: Int, alertDialog: AlertDialog) {
-        with(AlertDialog.Builder(this))
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
         {
             setTitle("Удаление документа")
             setMessage("Удалить документ?")
@@ -325,41 +314,47 @@ class AcceptanceActivity: AppCompatActivity() {
             }
             setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
             }
-            show()
         }
+
+        val dialog = builder.create()
+        dialog.show()
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(R.style.Theme_PortableDataTerminal)
     }
 
     /*
      * Диалоговое окно с ошибкой при отправке документа на сервер
      */
     private fun errorDialog() {
-        with(AlertDialog.Builder(this))
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
         {
             setTitle("Ошибка отправления")
             setMessage("Повторите отправку документа")
             setPositiveButton("Хорошо") { dialog: DialogInterface, which: Int ->
             }
-            show()
         }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
     }
 
     /*
      * Диалоговое окно для сохранения документа
      */
     private fun saveDialog(editText: EditText) {
-        with(AlertDialog.Builder(this))
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
         {
             setTitle("Сохранение документа")
             setMessage("Введите название документа")
             setView(editText)
             setPositiveButton("Сохранить") { dialog: DialogInterface, which: Int ->
                 val documentLoader = DocumentLoader()
-                val result = documentLoader.saveDocument(
-                    binding.linearLayout.children,
-                    editText.text.toString(),
-                    context,
-                    "acceptance"
-                )
+                val result = documentLoader.saveDocument(binding.linearLayout.children, editText.text.toString(), context, type)
 
                 if (result == DocumentLoader.SUCCESS)
                     Toast.makeText(context, "Сохранение успешно", Toast.LENGTH_LONG).show()
@@ -369,8 +364,12 @@ class AcceptanceActivity: AppCompatActivity() {
             setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
                 Toast.makeText(context, "Сохранение отменено", Toast.LENGTH_LONG).show()
             }
-            show()
         }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(R.style.Theme_PortableDataTerminal)
     }
 
     /*
@@ -405,8 +404,7 @@ class AcceptanceActivity: AppCompatActivity() {
                 val fragments = documentLoader.loadDocument(id, context)
 
                 fragments.forEach { fragment ->
-                    supportFragmentManager.beginTransaction().add(R.id.linearLayout, fragment)
-                        .commitNow()
+                    supportFragmentManager.beginTransaction().add(R.id.linearLayout, fragment).commitNow()
 
                     fragment.view?.setOnLongClickListener {
                         popupMenu(it)
@@ -433,16 +431,19 @@ class AcceptanceActivity: AppCompatActivity() {
         }
 
         dialog.show()
+
+        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(R.style.Theme_PortableDataTerminal)
     }
 
     /*
      * Диалоговое окно для отправки документа
      */
-    @SuppressLint("InflateParams", "CutPasteId")
+    @SuppressLint("InflateParams", "CutPasteId", "ResourceType")
     private fun sendDialog() {
         val view = layoutInflater.inflate(R.layout.dialog_send_document, null)
+        val builder = AlertDialog.Builder(this)
 
-        with(AlertDialog.Builder(this))
+        with(builder)
         {
             setTitle("Отправление документа")
             setView(view)
@@ -453,25 +454,33 @@ class AcceptanceActivity: AppCompatActivity() {
                 else {
                     name = view.findViewById<EditText>(R.id.name_editText).text.toString().trim()
                     store = view.findViewById<EditText>(R.id.name_editText).text.toString().trim()
-                    sendData()
+                    sendData(view.findViewById<EditText>(R.id.password_editText).text.toString().trim())
                 }
             }
-            show()
         }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
     }
 
     /*
      * Диалоговое окно ошибки отправки документа
      */
     private fun errorSendDialog() {
-        with(AlertDialog.Builder(this))
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
         {
             setTitle("Ошибка отправки")
             setMessage("Заполните поля пред отправкой документа")
             setPositiveButton("Хорошо") { dialog: DialogInterface, which: Int ->
             }
-            show()
         }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
     }
 
 }

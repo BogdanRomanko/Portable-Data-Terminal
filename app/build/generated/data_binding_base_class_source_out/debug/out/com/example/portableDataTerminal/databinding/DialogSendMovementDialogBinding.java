@@ -26,14 +26,18 @@ public final class DialogSendMovementDialogBinding implements ViewBinding {
   public final EditText nameEditText;
 
   @NonNull
+  public final EditText passwordEditText;
+
+  @NonNull
   public final EditText secondStoreEditText;
 
   private DialogSendMovementDialogBinding(@NonNull LinearLayout rootView,
       @NonNull EditText firstStoreEditText, @NonNull EditText nameEditText,
-      @NonNull EditText secondStoreEditText) {
+      @NonNull EditText passwordEditText, @NonNull EditText secondStoreEditText) {
     this.rootView = rootView;
     this.firstStoreEditText = firstStoreEditText;
     this.nameEditText = nameEditText;
+    this.passwordEditText = passwordEditText;
     this.secondStoreEditText = secondStoreEditText;
   }
 
@@ -76,6 +80,12 @@ public final class DialogSendMovementDialogBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.password_editText;
+      EditText passwordEditText = ViewBindings.findChildViewById(rootView, id);
+      if (passwordEditText == null) {
+        break missingId;
+      }
+
       id = R.id.second_store_editText;
       EditText secondStoreEditText = ViewBindings.findChildViewById(rootView, id);
       if (secondStoreEditText == null) {
@@ -83,7 +93,7 @@ public final class DialogSendMovementDialogBinding implements ViewBinding {
       }
 
       return new DialogSendMovementDialogBinding((LinearLayout) rootView, firstStoreEditText,
-          nameEditText, secondStoreEditText);
+          nameEditText, passwordEditText, secondStoreEditText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

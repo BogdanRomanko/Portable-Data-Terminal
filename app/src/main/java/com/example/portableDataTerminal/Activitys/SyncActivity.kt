@@ -1,16 +1,8 @@
 package com.example.portableDataTerminal.Activitys
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.RetryPolicy
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseUserHandler
 import com.example.portableDataTerminal.Models.ProductDataModel
@@ -20,10 +12,8 @@ import com.example.portableDataTerminal.Utilies.ServerHelper
 import com.example.portableDataTerminal.databinding.ActivitySyncBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.*
-import okhttp3.Credentials
+import org.mindrot.jbcrypt.BCrypt
 import kotlin.math.roundToInt
-
 
 /*
  * Класс, содержащий в себе обработку страницы с
@@ -70,11 +60,13 @@ class SyncActivity : AppCompatActivity() {
         val password = binding.editTextPassword.text.toString()
         val ip = binding.editTextIP.text.toString()
 
+        val passwordHash = BCrypt.hashpw(password, BCrypt.gensalt())
+
         val userDbHandler = DatabaseUserHandler(this)
         userDbHandler.onUpgrade(userDbHandler.writableDatabase, 3, 3)
 
         if (name != "" && ip != "") {
-            val status = userDbHandler.addUser(UserDataModel(1, ip, name, password))
+            val status = userDbHandler.addUser(UserDataModel(1, ip, name, passwordHash))
             if (status > -1) {
                 Toast.makeText(applicationContext, "Данные записаны", Toast.LENGTH_LONG).show()
                 /*binding.editTextIP.text.clear()
@@ -85,21 +77,24 @@ class SyncActivity : AppCompatActivity() {
         } else
             Toast.makeText(applicationContext, "Неправильно заполнены данные! Проверьте ещё раз", Toast.LENGTH_LONG).show()
 
-        getData()
+        getData(password)
     }
 
     /*
      * Метод, посылающий веб-серверу get-запрос на получение
      * данных о товарах
      */
-    private fun getData() {
+    private fun getData(password: String) {
         val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
 
-        val result = ServerHelper(users[0].user_name, users[0].user_password, users[0].ip).getData(this)
-        products = Gson().fromJson(result, object : TypeToken<Array<Products>>() {}.type)
+        if (BCrypt.checkpw(users[0].user_password, password)) {
 
-        if (products.isNotEmpty())
-            saveData(products)
+            val result = ServerHelper(users[0].user_name, password, users[0].ip).getData(this)
+            products = Gson().fromJson(result, object : TypeToken<Array<Products>>() {}.type)
+
+            if (products.isNotEmpty())
+                saveData(products)
+        }
     }
 
     /*
