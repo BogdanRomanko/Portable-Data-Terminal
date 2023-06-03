@@ -3021,6 +3021,7 @@ int id fill 0x7f0900c2
 int id fill_horizontal 0x7f0900c3
 int id fill_vertical 0x7f0900c4
 int id filled 0x7f0900c5
+int id first_store_editText 0x7f090219
 int id fitCenter 0x7f0900c6
 int id fitEnd 0x7f0900c7
 int id fitStart 0x7f0900c8
@@ -3140,6 +3141,7 @@ int id mtrl_picker_text_input_range_start 0x7f090135
 int id mtrl_picker_title_text 0x7f090136
 int id mtrl_view_tag_bottom_padding 0x7f090137
 int id multiply 0x7f090138
+int id name_editText 0x7f09021a
 int id navigation_bar_item_active_indicator_view 0x7f090139
 int id navigation_bar_item_icon_container 0x7f09013a
 int id navigation_bar_item_icon_view 0x7f09013b
@@ -3228,6 +3230,7 @@ int id search_view_status_bar_spacer 0x7f09018a
 int id search_view_toolbar 0x7f09018b
 int id search_view_toolbar_container 0x7f09018c
 int id search_voice_btn 0x7f09018d
+int id second_store_editText 0x7f09021c
 int id select_dialog_listview 0x7f09018e
 int id selected 0x7f09018f
 int id selection_type 0x7f090190
@@ -3267,6 +3270,7 @@ int id startVertical 0x7f0901b0
 int id staticLayout 0x7f0901b1
 int id staticPostLayout 0x7f0901b2
 int id stop 0x7f0901b3
+int id store_editText 0x7f09021d
 int id stretch 0x7f0901b4
 int id submenuarrow 0x7f0901b5
 int id submit_area 0x7f0901b6
@@ -3485,6 +3489,8 @@ int layout design_navigation_menu 0x7f0c002d
 int layout design_navigation_menu_item 0x7f0c002e
 int layout design_text_input_end_icon 0x7f0c002f
 int layout design_text_input_start_icon 0x7f0c0030
+int layout dialog_send_document 0x7f0c0073
+int layout dialog_send_movement_dialog 0x7f0c0074
 int layout fragment_info 0x7f0c0031
 int layout m3_alert_dialog 0x7f0c0032
 int layout m3_alert_dialog_actions 0x7f0c0033

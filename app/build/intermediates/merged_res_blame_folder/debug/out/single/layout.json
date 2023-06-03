@@ -1,15 +1,31 @@
 [
     {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_movement.xml",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_movement.xml"
-    },
-    {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_sync.xml",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_sync.xml"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_acceptance.xml",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_acceptance.xml"
+    },
+    {
+        "merged": "com.example.portableDataTerminal.app-mergeDebugResources-29:/layout/dialog_send_movement_dialog.xml",
+        "source": "com.example.portableDataTerminal.app-main-32:/layout/dialog_send_movement_dialog.xml"
+    },
+    {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_info.xml",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_info.xml"
+    },
+    {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_shipment.xml",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_shipment.xml"
+    },
+    {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\dialog_send_document.xml",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\dialog_send_document.xml"
+    },
+    {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_movement.xml",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_movement.xml"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_main.xml",
@@ -20,10 +36,6 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\fragment_info.xml"
     },
     {
-        "merged": "com.example.portableDataTerminal.app-mergeDebugResources-29:/layout/activity_sync.xml",
-        "source": "com.example.portableDataTerminal.app-main-32:/layout/activity_sync.xml"
-    },
-    {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_choosing_doc_type.xml",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_choosing_doc_type.xml"
     },
@@ -32,11 +44,7 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_progress_sync.xml"
     },
     {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_info.xml",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_info.xml"
-    },
-    {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\activity_shipment.xml",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_shipment.xml"
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-mergeDebugResources-29:\\layout\\dialog_send_movement_dialog.xml",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\dialog_send_movement_dialog.xml"
     }
 ]

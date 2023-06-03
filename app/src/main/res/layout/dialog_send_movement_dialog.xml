@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/name_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите название документа"/>
+
+    <EditText
+        android:id="@+id/first_store_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Из какого склада перемещение"/>
+
+    <EditText
+        android:id="@+id/second_store_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="На какой склад перемещение"/>
+
+</LinearLayout>

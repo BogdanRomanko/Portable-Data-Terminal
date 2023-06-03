@@ -33,8 +33,13 @@ import com.example.portableDataTerminal.Utilies.ServerHelper
 import com.example.portableDataTerminal.databinding.ActivityMovementBinding
 import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanOptions
+import kotlinx.coroutines.delay
 import okhttp3.Credentials
 import org.json.JSONArray
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
 /*
  * Класс, содержащий в себе обработку страницы с формированием
@@ -45,6 +50,10 @@ class MovementActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMovementBinding
     private lateinit var removeView: View
     private var type = "movement"
+
+    private lateinit var name: String
+    private lateinit var first_store: String
+    private lateinit var second_store: String
 
     /*
      * Обработчик события создания страницы
@@ -60,7 +69,7 @@ class MovementActivity: AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.addButton.setOnClickListener { addProduct() }
-        binding.sendButton.setOnClickListener { sendData() }
+        binding.sendButton.setOnClickListener { sendDialog() }
     }
 
     /*
@@ -187,11 +196,19 @@ class MovementActivity: AppCompatActivity() {
     /*
      * Метод, отправляющий документ на веб-сервер
      */
+    @SuppressLint("SimpleDateFormat")
     private fun sendData() {
-        val json = "{\"type\" : \"$type\", \"products\": " + dataToJson().toString() + "}"
+        val json = "{\"type\" : \"$type\", " +
+                "\"first_store\" : \"$first_store\", " +
+                "\"second_store\" : \"$second_store\", " +
+                "\"name\" : \"$name\", " +
+                "\"date\" : \"${SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())}\", " +
+                "\"products\": ${dataToJson()} }"
         val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
 
         val result = ServerHelper(users[0].user_name, users[0].user_password, users[0].ip).sendData(json, this)
+
+        Thread.sleep(5000)
 
         if (result == 1)
             errorDialog()
@@ -207,14 +224,14 @@ class MovementActivity: AppCompatActivity() {
         binding.linearLayout.children.forEachIndexed { index, it ->
 
             result += "{" +
-                    "\"name\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_name)?.text.toString() + "\"," +
-                    "\"description\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_description)?.text.toString() + "\"," +
-                    "\"article\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_article)?.text.toString() + "\"," +
-                    "\"count\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_count)?.text.toString() + "\"," +
-                    "\"barcode\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_barcode)?.text.toString() + "\"," +
-                    "\"id\":" + "\"" + productHandler.getProduct(it.findViewById<EditText>(R.id.editText_product_barcode)?.text.toString()).id.toString() + "\""
+                    "\"name\" : \"${it.findViewById<EditText>(R.id.editText_product_name)?.text.toString()}\"," +
+                    "\"description\" : \"${it.findViewById<EditText>(R.id.editText_product_description)?.text.toString()}\"," +
+                    "\"article\" : \"${it.findViewById<EditText>(R.id.editText_product_article)?.text.toString()}\"," +
+                    "\"count\" : \"${it.findViewById<EditText>(R.id.editText_product_count)?.text.toString()}\"," +
+                    "\"barcode\" : \"${it.findViewById<EditText>(R.id.editText_product_barcode)?.text.toString()}\"," +
+                    "\"id\" : \"${productHandler.getProduct(it.findViewById<EditText>(R.id.editText_product_barcode)?.text.toString()).id.toString()}\""
 
-            result += if (binding.linearLayout.childCount == index + 1)
+            result += if (binding.linearLayout.childCount == index+1)
                 "}"
             else
                 "},"
@@ -438,5 +455,46 @@ class MovementActivity: AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    /*
+    * Диалоговое окно для отправки документа
+    */
+    @SuppressLint("InflateParams", "MissingInflatedId", "CutPasteId")
+    private fun sendDialog() {
+        val view = layoutInflater.inflate(R.layout.dialog_send_movement_dialog, null)
+
+        with(AlertDialog.Builder(this))
+        {
+            setTitle("Отправление документа")
+            setView(view)
+            setPositiveButton("Отправить") { dialog: DialogInterface, which: Int ->
+                if (view.findViewById<EditText>(R.id.name_editText).text.toString().trim().isEmpty() ||
+                    view.findViewById<EditText>(R.id.first_store_editText).text.toString().trim().isEmpty() ||
+                    view.findViewById<EditText>(R.id.first_store_editText).text.toString().trim().isEmpty())
+                    errorSendDialog()
+                else {
+                    name = view.findViewById<EditText>(R.id.name_editText).text.toString().trim()
+                    first_store = view.findViewById<EditText>(R.id.first_store_editText).text.toString().trim()
+                    second_store = view.findViewById<EditText>(R.id.first_store_editText).text.toString().trim()
+                    sendData()
+                }
+            }
+            show()
+        }
+    }
+
+    /*
+     * Диалоговое окно ошибки отправки документа
+     */
+    private fun errorSendDialog() {
+        with(AlertDialog.Builder(this))
+        {
+            setTitle("Ошибка отправки")
+            setMessage("Заполните поля пред отправкой документа")
+            setPositiveButton("Хорошо") { dialog: DialogInterface, which: Int ->
+            }
+            show()
+        }
     }
 }

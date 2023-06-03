@@ -10,11 +10,17 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import okhttp3.Credentials
 
+/*
+ * Класс, обеспечивающий работу с веб-сервером
+ */
 class ServerHelper(
     private var name: String,
     private var password: String,
     private var ip: String) {
 
+    /*
+     * Метод, принимающий данные от веб-сервера
+     */
     fun getData(context: Context): String {
         val url = "http://$ip/barcodes/hs/products/get_all_products"
         val queue = Volley.newRequestQueue(context)
@@ -62,6 +68,9 @@ class ServerHelper(
         return result
     }
 
+    /*
+     * Метод, отдающий данные на веб-сервер
+     */
     fun sendData(json: String, context: Context): Int {
         val url = "http://$ip/barcodes/hs/products/send_data"
         val queue = Volley.newRequestQueue(context)
@@ -72,7 +81,7 @@ class ServerHelper(
             url,
             { _ ->
             },
-            { _ ->
+            { error ->
                 result = 1
             })
         {

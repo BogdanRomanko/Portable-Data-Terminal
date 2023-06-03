@@ -23,6 +23,7 @@ id editText_product_barcode
 id editText_product_count
 id editText_product_description
 id editText_product_name
+id first_store_editText
 id fragmentContainerView
 id info_btn
 id info_label
@@ -30,12 +31,15 @@ id linearLayout
 id load_menu
 id main_layout
 id movement_btn
+id name_editText
 id remove_document
 id remove_item
 id save_menu
 id scrollView
+id second_store_editText
 id send_button
 id shipment_btn
+id store_editText
 id sync_btn
 id sync_layout
 id textView
@@ -46,6 +50,8 @@ layout activity_main
 layout activity_movement
 layout activity_shipment
 layout activity_sync
+layout dialog_send_document
+layout dialog_send_movement_dialog
 layout fragment_info
 menu remove_document_menu
 menu remove_info_menu

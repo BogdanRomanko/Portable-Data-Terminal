@@ -3022,6 +3022,7 @@ id fill
 id fill_horizontal
 id fill_vertical
 id filled
+id first_store_editText
 id fitCenter
 id fitEnd
 id fitStart
@@ -3141,6 +3142,7 @@ id mtrl_picker_text_input_range_start
 id mtrl_picker_title_text
 id mtrl_view_tag_bottom_padding
 id multiply
+id name_editText
 id navigation_bar_item_active_indicator_view
 id navigation_bar_item_icon_container
 id navigation_bar_item_icon_view
@@ -3229,6 +3231,7 @@ id search_view_status_bar_spacer
 id search_view_toolbar
 id search_view_toolbar_container
 id search_voice_btn
+id second_store_editText
 id select_dialog_listview
 id selected
 id selection_type
@@ -3268,6 +3271,7 @@ id startVertical
 id staticLayout
 id staticPostLayout
 id stop
+id store_editText
 id stretch
 id submenuarrow
 id submit_area
@@ -3486,6 +3490,8 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dialog_send_document
+layout dialog_send_movement_dialog
 layout fragment_info
 layout m3_alert_dialog
 layout m3_alert_dialog_actions

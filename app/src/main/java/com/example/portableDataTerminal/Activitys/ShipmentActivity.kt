@@ -35,6 +35,9 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanOptions
 import okhttp3.Credentials
 import org.json.JSONArray
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 /*
  * Класс, содержащий в себе обработку страницы с формированием
@@ -46,6 +49,9 @@ class ShipmentActivity: AppCompatActivity() {
     private lateinit var binding: ActivityShipmentBinding
     private lateinit var removeView: View
     private var type = "shipment"
+
+    private lateinit var name: String
+    private lateinit var store: String
 
     /*
      * Обработчик события создания страницы
@@ -61,7 +67,7 @@ class ShipmentActivity: AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.addButton.setOnClickListener { addProduct() }
-        binding.sendButton.setOnClickListener { sendData() }
+        binding.sendButton.setOnClickListener { sendDialog() }
     }
 
     /*
@@ -184,10 +190,15 @@ class ShipmentActivity: AppCompatActivity() {
     }
 
     /*
-     * Метод, отправляющий документ на веб-сервер
-     */
+    * Метод, отправляющий документ на веб-сервер
+    */
+    @SuppressLint("SimpleDateFormat")
     private fun sendData() {
-        val json = "{\"type\" : \"$type\", \"products\": " + dataToJson().toString() + "}"
+        val json = "{\"type\" : \"$type\", " +
+                "\"store\" : \"$store\", " +
+                "\"name\" : \"$name\", " +
+                "\"date\" : \"${SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())}\", " +
+                "\"products\": ${dataToJson()} }"
         val users: List<UserDataModel> = DatabaseUserHandler(this).viewUsers()
 
         val result = ServerHelper(users[0].user_name, users[0].user_password, users[0].ip).sendData(json, this)
@@ -204,13 +215,14 @@ class ShipmentActivity: AppCompatActivity() {
         var result = "["
 
         binding.linearLayout.children.forEachIndexed { index, it ->
+
             result += "{" +
-                    "\"name\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_name)?.text.toString() + "\"," +
-                    "\"description\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_description)?.text.toString() + "\"," +
-                    "\"article\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_article)?.text.toString() + "\"," +
-                    "\"count\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_count)?.text.toString() + "\"," +
-                    "\"barcode\":" + "\"" + it.findViewById<EditText>(R.id.editText_product_barcode)?.text.toString() + "\"," +
-                    "\"id\":" + "\"" + productHandler.getProduct(it.findViewById<EditText>(R.id.editText_product_barcode)?.text.toString()).id.toString() + "\""
+                    "\"name\" : \"${it.findViewById<EditText>(R.id.editText_product_name)?.text.toString()}\"," +
+                    "\"description\" : \"${it.findViewById<EditText>(R.id.editText_product_description)?.text.toString()}\"," +
+                    "\"article\" : \"${it.findViewById<EditText>(R.id.editText_product_article)?.text.toString()}\"," +
+                    "\"count\" : \"${it.findViewById<EditText>(R.id.editText_product_count)?.text.toString()}\"," +
+                    "\"barcode\" : \"${it.findViewById<EditText>(R.id.editText_product_barcode)?.text.toString()}\"," +
+                    "\"id\" : \"${productHandler.getProduct(it.findViewById<EditText>(R.id.editText_product_barcode)?.text.toString()).id.toString()}\""
 
             result += if (binding.linearLayout.childCount == index+1)
                 "}"
@@ -293,9 +305,7 @@ class ShipmentActivity: AppCompatActivity() {
      * Диалоговое окно для удаления записи в документе
      */
     private fun removeFragmentDialog() {
-        val builder = AlertDialog.Builder(this)
-
-        with(builder)
+        with(AlertDialog.Builder(this))
         {
             setTitle("Удаление фрагмента")
             setMessage("Удалить фрагмент?")
@@ -312,9 +322,7 @@ class ShipmentActivity: AppCompatActivity() {
      * Диалоговое окно для удаления документа из списка доступных
      */
     private fun removeDocumentDialog(id: Int, alertDialog: AlertDialog) {
-        val builder = AlertDialog.Builder(this)
-
-        with(builder)
+        with(AlertDialog.Builder(this))
         {
             setTitle("Удаление документа")
             setMessage("Удалить документ?")
@@ -333,9 +341,7 @@ class ShipmentActivity: AppCompatActivity() {
      * Диалоговое окно с ошибкой при отправке документа на сервер
      */
     private fun errorDialog() {
-        val builder = AlertDialog.Builder(this)
-
-        with(builder)
+        with(AlertDialog.Builder(this))
         {
             setTitle("Ошибка отправления")
             setMessage("Повторите отправку документа")
@@ -349,9 +355,7 @@ class ShipmentActivity: AppCompatActivity() {
      * Диалоговое окно для сохранения документа
      */
     private fun saveDialog(editText: EditText) {
-        val builder = AlertDialog.Builder(this)
-
-        with(builder)
+        with(AlertDialog.Builder(this))
         {
             setTitle("Сохранение документа")
             setMessage("Введите название документа")
@@ -437,6 +441,45 @@ class ShipmentActivity: AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    /*
+    * Диалоговое окно для отправки документа
+    */
+    @SuppressLint("InflateParams", "CutPasteId")
+    private fun sendDialog() {
+        val view = layoutInflater.inflate(R.layout.dialog_send_document, null)
+
+        with(AlertDialog.Builder(this))
+        {
+            setTitle("Отправление документа")
+            setView(view)
+            setPositiveButton("Отправить") { dialog: DialogInterface, which: Int ->
+                if (view.findViewById<EditText>(R.id.name_editText).text.toString().trim().isEmpty() ||
+                    view.findViewById<EditText>(R.id.name_editText).text.toString().trim().isEmpty())
+                    errorSendDialog()
+                else {
+                    name = view.findViewById<EditText>(R.id.name_editText).text.toString().trim()
+                    store = view.findViewById<EditText>(R.id.name_editText).text.toString().trim()
+                    sendData()
+                }
+            }
+            show()
+        }
+    }
+
+    /*
+     * Диалоговое окно ошибки отправки документа
+     */
+    private fun errorSendDialog() {
+        with(AlertDialog.Builder(this))
+        {
+            setTitle("Ошибка отправки")
+            setMessage("Заполните поля пред отправкой документа")
+            setPositiveButton("Хорошо") { dialog: DialogInterface, which: Int ->
+            }
+            show()
+        }
     }
 
 }
