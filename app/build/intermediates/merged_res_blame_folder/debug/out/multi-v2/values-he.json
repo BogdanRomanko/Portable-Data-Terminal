@@ -4,7 +4,7 @@
             "outputFile": "com.example.portableDataTerminal.app-mergeDebugResources-28:/values-he/values-he.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\broma\\.gradle\\caches\\transforms-3\\67a11b39af4c8d004f7fbafda0bf650b\\transformed\\zxing-android-embedded-4.3.0\\res\\values-he\\values-he.xml",
+                    "source": "C:\\Users\\broma\\.gradle\\caches\\transforms-3\\f15a42cc9e1653097780ce51600fa5f4\\transformed\\zxing-android-embedded-4.3.0\\res\\values-he\\values-he.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

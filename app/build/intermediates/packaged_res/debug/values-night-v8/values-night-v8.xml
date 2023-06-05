@@ -6,6 +6,7 @@
     <string name="app_name">Portable data terminal</string>
     <string name="apply">Применить</string>
     <string name="data_update">Обновление данных</string>
+    <string name="description_about">Информация о приложении</string>
     <string name="enter_ip">Введите IP-адрес</string>
     <string name="info">Посмотреть информацию о товаре</string>
     <string name="info_card_description">Информация о товаре:</string>
@@ -24,6 +25,7 @@
     <string name="tmp_description">Нажмите Добавить чтобы начать заполнение формы</string>
     <string name="user_name">Введите имя пользователя</string>
     <string name="user_password">Введите пароль</string>
+    <string name="version">Версия приложения: </string>
     <style name="Theme.PortableDataTerminal" parent="Theme.MaterialComponents.DayNight">
         
         <item name="colorPrimary">@color/purple_200</item>

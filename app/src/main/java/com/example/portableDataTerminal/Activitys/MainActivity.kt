@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding.syncBtn.setOnClickListener { sync() }
         binding.infoBtn.setOnClickListener { info() }
         binding.choosingDocTypeBtn.setOnClickListener { chooseDocumentType() }
+        binding.aboutBtn.setOnClickListener { about() }
 
         title = ""
     }
@@ -56,6 +57,6 @@ class MainActivity : AppCompatActivity() {
      * Обработчик вызова страницы о программе
      */
     private fun about() {
-
+        startActivity(Intent(this, AboutActivity::class.java))
     }
 }

@@ -2908,12 +2908,15 @@ id animateToStart
 id antiClockwise
 id anticipate
 id arc
+id article_editText
 id asConfigured
 id async
+id author_textView
 id auto
 id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
+id barcode_editText
 id barrier
 id baseline
 id beginOnFirstDraw
@@ -2960,6 +2963,7 @@ id contiguous
 id continuousVelocity
 id coordinator
 id cos
+id count_editText
 id counterclockwise
 id cradle
 id currentState
@@ -2973,6 +2977,7 @@ id decor_content_parent
 id default_activity_button
 id deltaRelative
 id dependency_ordering
+id description_editText
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub
@@ -3009,6 +3014,7 @@ id editText_product_description
 id editText_product_name
 id edit_query
 id elastic
+id email_textView
 id embed
 id end
 id endToStart
@@ -3183,6 +3189,7 @@ id pin
 id position
 id postLayout
 id pressed
+id product_id_EditText
 id progress_circular
 id progress_horizontal
 id radio
@@ -3331,6 +3338,7 @@ id uniform
 id unlabeled
 id up
 id useLogo
+id version_textView
 id vertical_only
 id view_offset_helper
 id view_transition
@@ -3468,6 +3476,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_about
 layout activity_acceptance
 layout activity_choosing_doc_type
 layout activity_info
@@ -3491,6 +3500,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dialog_add_product
 layout dialog_send_document
 layout dialog_send_movement_dialog
 layout fragment_info
@@ -3611,6 +3621,7 @@ string character_counter_pattern
 string clear_text_end_icon_content_description
 string data_update
 string define_zxingandroidembedded
+string description_about
 string enter_ip
 string error_a11y_label
 string error_icon_content_description
@@ -3753,6 +3764,7 @@ string sync_description
 string tmp_description
 string user_name
 string user_password
+string version
 string zxing_app_name
 string zxing_button_ok
 string zxing_msg_camera_framework_bug

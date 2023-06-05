@@ -4,12 +4,12 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_info.xml.flat",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_info.xml"
-    },
-    {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_shipment.xml.flat",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_shipment.xml"
+    },
+    {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_info.xml.flat",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_info.xml"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_fragment_info.xml.flat",
@@ -32,6 +32,10 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\xml\\data_extraction_rules.xml"
     },
     {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\font_average.ttf.flat",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\font\\average.ttf"
+    },
+    {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_sync.xml.flat",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_sync.xml"
     },
@@ -40,12 +44,8 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\font_average.ttf.flat",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\font\\average.ttf"
-    },
-    {
-        "merged": "com.example.portableDataTerminal.app-merged_res-30:/layout_dialog_send_document.xml.flat",
-        "source": "com.example.portableDataTerminal.app-main-32:/layout/dialog_send_document.xml"
+        "merged": "com.example.portableDataTerminal.app-merged_res-30:/layout_activity_shipment.xml.flat",
+        "source": "com.example.portableDataTerminal.app-main-32:/layout/activity_shipment.xml"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\drawable_ic_launcher_background.xml.flat",
@@ -56,12 +56,12 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\menu_remove_info.xml.flat",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\menu\\remove_info.xml"
-    },
-    {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-pngs-25:\\drawable-anydpi-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.portableDataTerminal.app-merged_res-30:/layout_activity_acceptance.xml.flat",
+        "source": "com.example.portableDataTerminal.app-main-32:/layout/activity_acceptance.xml"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\mipmap-mdpi_ic_launcher_round.webp.flat",
@@ -72,12 +72,12 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-anydpi-v33\\ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-hdpi\\ic_launcher.webp"
-    },
-    {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_dialog_send_movement_dialog.xml.flat",
@@ -92,8 +92,16 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\dialog_send_document.xml"
     },
     {
+        "merged": "com.example.portableDataTerminal.app-merged_res-30:/layout_activity_movement.xml.flat",
+        "source": "com.example.portableDataTerminal.app-main-32:/layout/activity_movement.xml"
+    },
+    {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_about_activity.xml.flat",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\about_activity.xml"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\menu_remove_info_menu.xml.flat",
@@ -104,12 +112,20 @@
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\menu_save_load_menu.xml.flat",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\menu\\save_load_menu.xml"
     },
     {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\mipmap-xxhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_about.xml.flat",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_about.xml"
+    },
+    {
+        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_dialog_add_product.xml.flat",
+        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\dialog_add_product.xml"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_acceptance.xml.flat",
@@ -126,10 +142,6 @@
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_movement.xml.flat",
         "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_movement.xml"
-    },
-    {
-        "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_progress_sync.xml.flat",
-        "source": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-main-32:\\layout\\activity_progress_sync.xml"
     },
     {
         "merged": "C:\\Users\\broma\\.gradle\\daemon\\7.5\\com.example.portableDataTerminal.app-merged_res-30:\\layout_activity_choosing_doc_type.xml.flat",

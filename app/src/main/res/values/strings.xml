@@ -27,4 +27,6 @@
     <string name="acceptance_product">Приёмка товара</string>
     <string name="shipment_product">Отгрузка товара</string>
     <string name="movement_product">Перемещение товара</string>
+    <string name="description_about">Информация о приложении</string>
+    <string name="version">Версия приложения: </string>
 </resources>

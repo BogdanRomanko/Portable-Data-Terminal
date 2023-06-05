@@ -6,15 +6,12 @@ import android.content.DialogInterface
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
-import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
 import com.example.portableDataTerminal.Fragments.InfoFragment
+import com.example.portableDataTerminal.Models.ProductDataModel
 import com.example.portableDataTerminal.R
 import com.example.portableDataTerminal.databinding.ActivityInfoBinding
 import com.google.zxing.integration.android.IntentIntegrator
@@ -59,28 +56,28 @@ class InfoActivity : AppCompatActivity() {
      */
     override fun onStart() {
         super.onStart()
-        lock_editText()
+        lockEditText()
     }
 
     /*
      * Метод, блокирующий поля в форме с информацией о товаре
      * от изменений
      */
-    private fun lock_editText() {
+    private fun lockEditText() {
         val fragment = binding.fragmentContainerView.getFragment<InfoFragment>().view
 
-        val editText_product_barcode = fragment?.findViewById<EditText>(R.id.editText_product_barcode)
-        val editText_product_name = fragment?.findViewById<EditText>(R.id.editText_product_name)
-        val editText_product_description = fragment?.findViewById<EditText>(R.id.editText_product_description)
-        val editText_product_count = fragment?.findViewById<EditText>(R.id.editText_product_count)
-        val editText_product_article = fragment?.findViewById<EditText>(R.id.editText_product_article)
+        val editTextProductBarcode = fragment?.findViewById<EditText>(R.id.editText_product_barcode)
+        val editTextProductName = fragment?.findViewById<EditText>(R.id.editText_product_name)
+        val editTextProductDescription = fragment?.findViewById<EditText>(R.id.editText_product_description)
+        val editTextProductCount = fragment?.findViewById<EditText>(R.id.editText_product_count)
+        val editTextProductArticle = fragment?.findViewById<EditText>(R.id.editText_product_article)
 
         val editTexts = arrayOf(
-            editText_product_name,
-            editText_product_description,
-            editText_product_barcode,
-            editText_product_count,
-            editText_product_article
+            editTextProductName,
+            editTextProductDescription,
+            editTextProductBarcode,
+            editTextProductCount,
+            editTextProductArticle
         )
 
         editTexts.forEach {
@@ -124,23 +121,106 @@ class InfoActivity : AppCompatActivity() {
      */
     @SuppressLint("SetTextI18n")
     private fun getData(barcode: String) {
-        try {
-            val products = DatabaseProductHandler(this)
+        try{
+            val product = DatabaseProductHandler(this).getProduct(barcode)
 
-            products.viewProducts().forEach {
-                if (it.product_barcode == barcode) {
-                    val fragment = binding.fragmentContainerView.getFragment<InfoFragment>().view
-                    fragment?.findViewById<EditText>(R.id.editText_product_barcode)?.setText(it.product_barcode)
-                    fragment?.findViewById<EditText>(R.id.editText_product_name)?.setText(it.product_name)
-                    fragment?.findViewById<EditText>(R.id.editText_product_description)?.setText(it.product_description)
-                    fragment?.findViewById<EditText>(R.id.editText_product_count)?.setText(it.product_count)
-                    fragment?.findViewById<EditText>(R.id.editText_product_article)?.setText(it.product_article)
-                    return
-                }
+            if (product.product_barcode == "")
+                addProductDialog(barcode)
+            else {
+                val fragment = binding.fragmentContainerView.getFragment<InfoFragment>().view
+                fragment?.findViewById<EditText>(R.id.editText_product_barcode)?.setText(product.product_barcode)
+                fragment?.findViewById<EditText>(R.id.editText_product_name)?.setText(product.product_name)
+                fragment?.findViewById<EditText>(R.id.editText_product_description)?.setText(product.product_description)
+                fragment?.findViewById<EditText>(R.id.editText_product_count)?.setText(product.product_count)
+                fragment?.findViewById<EditText>(R.id.editText_product_article)?.setText(product.product_article)
+                return
             }
         } catch (_: Exception) {
-
         }
+    }
+
+
+    /*
+     * Диалоговое окно добавления товара
+     */
+    private fun addProductDialog(barcode: String) {
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
+        {
+            setTitle("Добавление товара")
+            setMessage("Совпадений в базе данных штрих-кода \"$barcode\" не обнаружено. Желаете добавить товар вручную?")
+            setPositiveButton("Да") { dialog: DialogInterface, which: Int ->
+                addProductDBDialog(barcode)
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+            }
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+    }
+
+    /*
+     * Диалоговое окно добавления товара в базу данных
+     */
+    @SuppressLint("InflateParams", "CutPasteId", "ResourceType")
+    private fun addProductDBDialog(barcode: String) {
+        val view = layoutInflater.inflate(R.layout.dialog_add_product, null)
+        val builder = AlertDialog.Builder(this)
+        view.findViewById<EditText>(R.id.barcode_editText).setText(barcode)
+
+        with(builder)
+        {
+            setTitle("Добавление товара")
+            setView(view)
+            setPositiveButton("Добавить") { dialog: DialogInterface, which: Int ->
+                if (view.findViewById<EditText>(R.id.barcode_editText).text.toString().trim().isEmpty() &&
+                    view.findViewById<EditText>(R.id.count_editText).text.toString().trim().isEmpty())
+                    errorDialog("Ошибка добавления товара", "Проверьте заполненность поля со штрих-кодом или количеством")
+                else {
+                    DatabaseProductHandler(this@InfoActivity).addProduct(
+                        ProductDataModel(
+                        (DatabaseProductHandler(this@InfoActivity).viewProducts().size + 1).toString(),
+                        view.findViewById<EditText>(R.id.product_id_EditText).text.toString(),
+                        view.findViewById<EditText>(R.id.name_editText).text.toString(),
+                        view.findViewById<EditText>(R.id.description_editText).text.toString(),
+                        view.findViewById<EditText>(R.id.article_editText).text.toString(),
+                        view.findViewById<EditText>(R.id.barcode_editText).text.toString(),
+                        view.findViewById<EditText>(R.id.count_editText).text.toString().toInt()
+                    )
+                    )
+                }
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+            }
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+    }
+
+    /*
+     * Диалоговое окно с ошибкой при отправке документа на сервер
+     */
+    private fun errorDialog(title: String, message: String) {
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
+        {
+            setTitle(title)
+            setMessage(message)
+            setPositiveButton("Хорошо") { dialog: DialogInterface, which: Int ->
+            }
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
     }
 
 }

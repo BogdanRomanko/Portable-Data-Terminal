@@ -33,6 +33,8 @@
         <activity
             android:name=".Activitys.ChoosingDocumentTypeActivity"
             android:exported="false" />
+        <activity android:name=".Activitys.AboutActivity"
+            android:exported="false"/>
         <activity
             android:name=".Activitys.MainActivity"
             android:exported="true">

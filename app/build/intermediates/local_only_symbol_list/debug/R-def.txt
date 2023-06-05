@@ -13,8 +13,13 @@ font average
 id about_btn
 id acceptance_btn
 id add_button
+id article_editText
+id author_textView
+id barcode_editText
 id button_acceptance
 id choosing_doc_type_btn
+id count_editText
+id description_editText
 id editText_IP
 id editText_name
 id editText_password
@@ -23,6 +28,7 @@ id editText_product_barcode
 id editText_product_count
 id editText_product_description
 id editText_product_name
+id email_textView
 id first_store_editText
 id fragmentContainerView
 id info_btn
@@ -33,6 +39,7 @@ id main_layout
 id movement_btn
 id name_editText
 id password_editText
+id product_id_EditText
 id remove_document
 id remove_item
 id save_menu
@@ -44,6 +51,8 @@ id store_editText
 id sync_btn
 id sync_layout
 id textView
+id version_textView
+layout activity_about
 layout activity_acceptance
 layout activity_choosing_doc_type
 layout activity_info
@@ -51,6 +60,7 @@ layout activity_main
 layout activity_movement
 layout activity_shipment
 layout activity_sync
+layout dialog_add_product
 layout dialog_send_document
 layout dialog_send_movement_dialog
 layout fragment_info
@@ -65,6 +75,7 @@ string add_button
 string app_name
 string apply
 string data_update
+string description_about
 string enter_ip
 string info
 string info_card_description
@@ -83,6 +94,7 @@ string sync_description
 string tmp_description
 string user_name
 string user_password
+string version
 style Theme.PortableDataTerminal
 xml backup_rules
 xml data_extraction_rules

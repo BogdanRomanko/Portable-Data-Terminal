@@ -19,9 +19,10 @@ import com.example.portableDataTerminal.DatabaseHandlers.DatabaseProductHandler
 import com.example.portableDataTerminal.DatabaseHandlers.DatabaseUserHandler
 import com.example.portableDataTerminal.Fragments.InfoFragment
 import com.example.portableDataTerminal.Models.DocumentDataModel
+import com.example.portableDataTerminal.Models.ProductDataModel
 import com.example.portableDataTerminal.Models.UserDataModel
 import com.example.portableDataTerminal.R
-import com.example.portableDataTerminal.Utilies.DocumentLoader
+import com.example.portableDataTerminal.Utilies.DocumentStream
 import com.example.portableDataTerminal.Utilies.ServerHelper
 import com.example.portableDataTerminal.databinding.ActivityShipmentBinding
 import com.google.zxing.integration.android.IntentIntegrator
@@ -97,6 +98,7 @@ class ShipmentActivity: AppCompatActivity() {
     * Обработчик события для сканера штрих-кодов, который в случае удачного
     * сканирования передаст отсканированный штрих-код в метод обработки данных
     */
+    @Deprecated("Deprecated in Java")
     @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
@@ -137,38 +139,25 @@ class ShipmentActivity: AppCompatActivity() {
      * и вписывающий данные в созданную форму в документе
      */
     @SuppressLint("SetTextI18n")
-    fun getData(barcode: String) {
+    private fun getData(barcode: String) {
         try{
-            val products = DatabaseProductHandler(this)
-            products.viewProducts().forEach {
-                if (it.product_barcode == barcode) {
-                    binding.linearLayout.children.forEach() { child ->
-                        if (child.findViewById<EditText>(R.id.editText_product_barcode).text.toString() == it.product_barcode){
-                            val count =  child.findViewById<EditText>(R.id.editText_product_count).text.toString().toInt()
+            val product = DatabaseProductHandler(this).getProduct(barcode)
+            if (product.product_barcode == "")
+                addProductDialog(barcode)
+            else {
+                val fragment = binding.linearLayout.getChildAt(binding.linearLayout.childCount - 1)
+                fragment?.findViewById<EditText>(R.id.editText_product_barcode)?.setText(product.product_barcode)
+                fragment?.findViewById<EditText>(R.id.editText_product_name)?.setText(product.product_name)
+                fragment?.findViewById<EditText>(R.id.editText_product_description)?.setText(product.product_description)
+                fragment?.findViewById<EditText>(R.id.editText_product_count)?.setText(1.toString())
+                fragment?.findViewById<EditText>(R.id.editText_product_article)?.setText(product.product_article)
 
-                            child.findViewById<EditText>(R.id.editText_product_count).setText((count + 1).toString())
-
-                            return
-                        }
-                    }
-
-                    val fragment = binding.linearLayout.getChildAt(binding.linearLayout.childCount-1)
-                    fragment?.findViewById<EditText>(R.id.editText_product_barcode)?.setText(it.product_barcode)
-                    fragment?.findViewById<EditText>(R.id.editText_product_name)?.setText(it.product_name)
-                    fragment?.findViewById<EditText>(R.id.editText_product_description)?.setText(it.product_description)
-                    fragment?.findViewById<EditText>(R.id.editText_product_count)?.setText(1.toString())
-                    fragment?.findViewById<EditText>(R.id.editText_product_article)?.setText(it.product_article)
-
-                    fragment?.setOnLongClickListener {
-                        popupMenu(fragment)
-                        true
-                    }
-
-                    return
+                fragment?.setOnLongClickListener {
+                    popupMenu(fragment)
+                    true
                 }
             }
         } catch (_: Exception) {
-
         }
     }
 
@@ -190,7 +179,7 @@ class ShipmentActivity: AppCompatActivity() {
             result = ServerHelper(users[0].user_name, password, users[0].ip).sendData(json, this)
 
         if (result == 1)
-            errorDialog()
+            errorDialog("Ошибка отправки", "Повторите ошибку отправки документа")
     }
 
     /*
@@ -283,6 +272,70 @@ class ShipmentActivity: AppCompatActivity() {
     }
 
     /*
+     * Диалоговое окно добавления товара
+     */
+    private fun addProductDialog(barcode: String) {
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
+        {
+            setTitle("Добавление товара")
+            setMessage("Совпадений в базе данных штрих-кода \"$barcode\" не обнаружено. Желаете добавить товар вручную?")
+            setPositiveButton("Да") { dialog: DialogInterface, which: Int ->
+                addProductDBDialog(barcode)
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+            }
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+    }
+
+    /*
+     * Диалоговое окно добавления товара в базу данных
+     */
+    @SuppressLint("InflateParams", "CutPasteId", "ResourceType")
+    private fun addProductDBDialog(barcode: String) {
+        val view = layoutInflater.inflate(R.layout.dialog_add_product, null)
+        val builder = AlertDialog.Builder(this)
+        view.findViewById<EditText>(R.id.barcode_editText).setText(barcode)
+
+        with(builder)
+        {
+            setTitle("Добавление товара")
+            setView(view)
+            setPositiveButton("Добавить") { dialog: DialogInterface, which: Int ->
+                if (view.findViewById<EditText>(R.id.barcode_editText).text.toString().trim().isEmpty() &&
+                    view.findViewById<EditText>(R.id.count_editText).text.toString().trim().isEmpty())
+                    errorDialog("Ошибка добавления товара", "Проверьте заполненность поля со штрих-кодом или количеством")
+                else {
+                    DatabaseProductHandler(this@ShipmentActivity).addProduct(
+                        ProductDataModel(
+                        (DatabaseProductHandler(this@ShipmentActivity).viewProducts().size + 1).toString(),
+                        view.findViewById<EditText>(R.id.product_id_EditText).text.toString(),
+                        view.findViewById<EditText>(R.id.name_editText).text.toString(),
+                        view.findViewById<EditText>(R.id.description_editText).text.toString(),
+                        view.findViewById<EditText>(R.id.article_editText).text.toString(),
+                        view.findViewById<EditText>(R.id.barcode_editText).text.toString(),
+                        view.findViewById<EditText>(R.id.count_editText).text.toString().toInt()
+                    )
+                    )
+                }
+            }
+            setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
+            }
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(R.style.Theme_PortableDataTerminal)
+    }
+
+    /*
      * Диалоговое окно для удаления записи в документе
      */
     private fun removeFragmentDialog() {
@@ -333,13 +386,13 @@ class ShipmentActivity: AppCompatActivity() {
     /*
      * Диалоговое окно с ошибкой при отправке документа на сервер
      */
-    private fun errorDialog() {
+    private fun errorDialog(title: String, message: String) {
         val builder = AlertDialog.Builder(this)
 
         with(builder)
         {
-            setTitle("Ошибка отправления")
-            setMessage("Повторите отправку документа")
+            setTitle(title)
+            setMessage(message)
             setPositiveButton("Хорошо") { dialog: DialogInterface, which: Int ->
             }
         }
@@ -355,19 +408,20 @@ class ShipmentActivity: AppCompatActivity() {
     private fun saveDialog(editText: EditText) {
         val builder = AlertDialog.Builder(this)
 
+        editText.hint = "Введите название документа"
+
         with(builder)
         {
             setTitle("Сохранение документа")
-            setMessage("Введите название документа")
             setView(editText)
             setPositiveButton("Сохранить") { dialog: DialogInterface, which: Int ->
-                val documentLoader = DocumentLoader()
-                val result = documentLoader.saveDocument(binding.linearLayout.children, editText.text.toString(), context, type)
+                val documentStream = DocumentStream()
+                val result = documentStream.saveDocument(binding.linearLayout.children, editText.text.toString(), context, type)
 
-                if (result == DocumentLoader.SUCCESS)
+                if (result == DocumentStream.SUCCESS)
                     Toast.makeText(context, "Сохранение успешно", Toast.LENGTH_LONG).show()
-                else if (result == DocumentLoader.ERROR)
-                    Toast.makeText(context, "Ошибка сохранения", Toast.LENGTH_LONG).show()
+                else if (result == DocumentStream.ERROR)
+                    errorDialog("Ошибка сохранения", "Повторите попытку сохранения")
             }
             setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
                 Toast.makeText(context, "Сохранение отменено", Toast.LENGTH_LONG).show()
@@ -408,8 +462,8 @@ class ShipmentActivity: AppCompatActivity() {
                         id = it.id.toString().toInt()
                 }
 
-                val documentLoader = DocumentLoader()
-                val fragments = documentLoader.loadDocument(id, context)
+                val documentStream = DocumentStream()
+                val fragments = documentStream.loadDocument(id, context)
 
                 fragments.forEach { fragment ->
                     supportFragmentManager.beginTransaction().add(R.id.linearLayout, fragment).commitNow()
@@ -420,7 +474,7 @@ class ShipmentActivity: AppCompatActivity() {
                     }
                 }
 
-                documentLoader.loadData(DatabaseDocumentHandler(context).getDocument(id), fragments)
+                documentStream.loadData(DatabaseDocumentHandler(context).getDocument(id), fragments)
                 binding.textView.text = ""
             }
             setNeutralButton("Отмена") { dialog: DialogInterface, which: Int ->
@@ -458,31 +512,12 @@ class ShipmentActivity: AppCompatActivity() {
             setPositiveButton("Отправить") { dialog: DialogInterface, which: Int ->
                 if (view.findViewById<EditText>(R.id.name_editText).text.toString().trim().isEmpty() ||
                     view.findViewById<EditText>(R.id.name_editText).text.toString().trim().isEmpty())
-                    errorSendDialog()
+                    errorDialog("Ошибка отправки", "Заполните поля пред отправкой документа")
                 else {
                     name = view.findViewById<EditText>(R.id.name_editText).text.toString().trim()
                     store = view.findViewById<EditText>(R.id.name_editText).text.toString().trim()
                     sendData(view.findViewById<EditText>(R.id.password_editText).text.toString().trim())
                 }
-            }
-        }
-
-        val alertDialog = builder.create()
-        alertDialog.show()
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(R.style.Theme_PortableDataTerminal)
-    }
-
-    /*
-     * Диалоговое окно ошибки отправки документа
-     */
-    private fun errorSendDialog() {
-        val builder = AlertDialog.Builder(this)
-
-        with(builder)
-        {
-            setTitle("Ошибка отправки")
-            setMessage("Заполните поля пред отправкой документа")
-            setPositiveButton("Хорошо") { dialog: DialogInterface, which: Int ->
             }
         }
 
